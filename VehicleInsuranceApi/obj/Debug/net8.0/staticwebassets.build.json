@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "e4ULBbMNoR7GWdZi9ONfTvIbU/rMlrV32SzF4YeuyN4=",
+  "Source": "VehicleInsuranceApi",
+  "BasePath": "_content/VehicleInsuranceApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

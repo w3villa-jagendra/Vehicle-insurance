@@ -1,6 +1,0 @@
-@backend_vehicalInsuranceApi_HostAddress = http://localhost:5152
-
-GET {{backend_vehicalInsuranceApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
