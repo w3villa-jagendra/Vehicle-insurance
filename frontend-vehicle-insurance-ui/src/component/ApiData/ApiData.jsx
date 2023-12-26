@@ -7,7 +7,7 @@ function ApiData(){
 
     useEffect(() => {
       axios
-        .get('http://localhost:5152/weatherforecast')
+        .get('http://localhost:5113/WeatherForecast')
         .then((response) => {
           let data = response.data;
           setWeatherData(data);
@@ -16,8 +16,12 @@ function ApiData(){
         .catch((error) => {
           console.error('Error fetching data:', error);
         });
+
+        
     }, []);
 
+
+    console.log('he',weatherData)
     return(
         <>
                 <table className="table">
