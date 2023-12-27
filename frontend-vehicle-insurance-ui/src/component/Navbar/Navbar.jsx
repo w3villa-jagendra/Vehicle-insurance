@@ -4,11 +4,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
+import { useContext } from 'react';
+import {userContext} from '../../utils/userContext'
+
+
 function NavBar() {
+  const {name} = useContext(userContext);
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary " >
       <Container>
-        <Navbar.Brand href="#home">Vehical-Insurance</Navbar.Brand>
+        <Navbar.Brand href="#home">Vehical-Insurance, {name}</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

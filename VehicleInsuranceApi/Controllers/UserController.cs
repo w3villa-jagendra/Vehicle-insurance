@@ -79,14 +79,13 @@ namespace VehicleInsuranceApi.Controllers
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-
-           
+            
             return CreatedAtAction(nameof(GetUser), new {id = user.UserID}, user);
         }
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(long id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)

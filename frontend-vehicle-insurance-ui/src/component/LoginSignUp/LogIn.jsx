@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './LogInSignUp.css';
-
+import { userContext } from "../../utils/userContext";
 function LogIn() {
     const [formData, setFormData] = useState({
         email: '',
@@ -11,6 +11,7 @@ function LogIn() {
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState('success');
     const navigate = useNavigate();
+    const {user} = useContext(userContext);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,7 +41,7 @@ function LogIn() {
             setShowAlert(false);
         }, 3000);
     };
-
+console.log(user)
     return (
         <div className="main">
          
@@ -50,7 +51,7 @@ function LogIn() {
                     {alertVariant === 'success' ? 'Login successful!' : 'Invalid credentials!'}
                 </Alert>
             )}
-                <h1 className="text-center">Login</h1>
+                <h1 className="text-center">Login {user && user.username}</h1>
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
                         <label htmlFor="email">Email:</label>
