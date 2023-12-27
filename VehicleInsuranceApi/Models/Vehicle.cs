@@ -1,21 +1,25 @@
-
+using System.ComponentModel.DataAnnotations;
 
 namespace VehicleInsuranceApi.Models
 {
 
-public class Vehicle
-{
-     
-    public int VehicleID { get; set; }
-    public int? UserID { get; set; }
-    public  User? User { get; set; }
-    public VehicleType Type { get; set; }
-    public  string? EngineNumber { get; set; }
-    public DateTime MakeDate { get; set; }
-    public string? OwnerDetails { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public class Vehicle
+    {
 
-}
+        public long ID { get; set; }
+        public long OwnerID { get; set; }
+        public string? EngineNumber { get; set; }
+        public string? VehicleNumber { get; set; }
+        public int VehicleType { get; set; }
+        public DateTime MfdDate { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+
+        // Navigation properties
+        public User? Owner { get; set; }
+
+
+
+    }
 
 }

@@ -1,6 +1,8 @@
 import React, { useState,useContext,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../utils/userContext";
+import axios from "axios";
+
 import "./LogInSignUp.css";
 const SignUp= () => {
 
@@ -11,31 +13,48 @@ const SignUp= () => {
     confirmPassword: ""
   });
 
-  const {signUp} = useContext(userContext);
+  const {signUp,user} = useContext(userContext);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate= useNavigate();
   useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      // Navigate only if there are no errors and the submit button is clicked
-      navigate('/logIn');
-    }
-  }, [formErrors]);
+    const submitData = async () => {
+      try {
+        if (Object.keys(formErrors).length === 0 && isSubmit) {
+     
+          const response = await axios.post('http://localhost:5113/api/User', user);
+  
+         
+          console.log(response);
+  
+       
+          navigate('/logIn');
+        }
+      } catch (error) {
+        
+        console.error('Error submitting data:', error);
+      }
+    };
+  
+    submitData();
+  }, [formErrors, isSubmit]);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors(validate(formValues));
     setIsSubmit(true);
 
     if (Object.keys(formErrors).length === 0){
 
+      signUp(formValues)
 
+      
 
-    signUp(formValues)
 
     }
 
@@ -52,14 +71,14 @@ const SignUp= () => {
     if (!formValues.email) {
       errors.email = "empty email";
     } else if (!emailRegex.test(formValues.email)) {
-      errors.email = "This is not a valid email format"; // Fix here
+      errors.email = "This is not a valid email format"; 
     }
     if (!formValues.password) {
       errors.password = "empty password";
     } else if (formValues.password.length <= 4) {
       errors.password = "password length is too short";
     } else if (formValues.password.length >= 10) {
-      errors.password = "password length should not exceed more than 10 digits"; // Fix here
+      errors.password = "password length should not exceed more than 10 digits"; 
     }
     if (!formValues.confirmPassword) {
       errors.confirmPassword = "empty Confirm password";
