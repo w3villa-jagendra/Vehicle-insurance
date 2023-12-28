@@ -5,13 +5,9 @@ export const userContext = createContext();
 
 export const Provider = ({ children }) => {
     // const [name,setName] = useState({});
-    const [user,setUser] = useState({
-        name:'',
-        email:'',
-        password:''
-    });
+    const [user,setUser] = useState();
     const signUp =(value)=>{
-        setUser({...user,name:value.username, email:value.email, password:value.password});
+        setUser(value);
     }
 
     console.log(user)

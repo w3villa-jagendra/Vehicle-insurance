@@ -22,105 +22,24 @@ namespace VehicleInsuranceApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("VehicleInsuranceApi.Models.Permission", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Permission");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.Role", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Role");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.RolePermission", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("PermissionID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("RoleID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("PermissionID");
-
-                    b.HasIndex("RoleID");
-
-                    b.ToTable("RolePermission");
-                });
-
             modelBuilder.Entity("VehicleInsuranceApi.Models.User", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEmailVerified")
-                        .HasColumnType("bit");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -129,85 +48,21 @@ namespace VehicleInsuranceApi.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("UserType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
+                    b.HasKey("UserID");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("VehicleInsuranceApi.Models.UserProfile", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UserID")
-                        .IsUnique();
-
-                    b.ToTable("UserProfile");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.UserRole", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("RoleID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("RoleID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("UserRole");
-                });
-
             modelBuilder.Entity("VehicleInsuranceApi.Models.Vehicle", b =>
                 {
-                    b.Property<long>("ID")
+                    b.Property<int>("VehicleID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleID"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -215,105 +70,35 @@ namespace VehicleInsuranceApi.Migrations
                     b.Property<string>("EngineNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MfdDate")
+                    b.Property<DateTime>("MakeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("OwnerID")
-                        .HasColumnType("bigint");
+                    b.Property<string>("OwnerDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("VehicleNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VehicleType")
+                    b.Property<int?>("UserID")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("VehicleID");
 
-                    b.HasIndex("OwnerID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("VehicleInsuranceApi.Models.RolePermission", b =>
-                {
-                    b.HasOne("VehicleInsuranceApi.Models.Permission", "Permission")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("PermissionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VehicleInsuranceApi.Models.Role", "Role")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Permission");
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.UserProfile", b =>
-                {
-                    b.HasOne("VehicleInsuranceApi.Models.User", "User")
-                        .WithOne("Profile")
-                        .HasForeignKey("VehicleInsuranceApi.Models.UserProfile", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.UserRole", b =>
-                {
-                    b.HasOne("VehicleInsuranceApi.Models.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VehicleInsuranceApi.Models.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("VehicleInsuranceApi.Models.Vehicle", b =>
                 {
-                    b.HasOne("VehicleInsuranceApi.Models.User", "Owner")
+                    b.HasOne("VehicleInsuranceApi.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("OwnerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID");
 
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.Permission", b =>
-                {
-                    b.Navigation("RolePermissions");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.Role", b =>
-                {
-                    b.Navigation("RolePermissions");
-
-                    b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.User", b =>
-                {
-                    b.Navigation("Profile");
-
-                    b.Navigation("UserRoles");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

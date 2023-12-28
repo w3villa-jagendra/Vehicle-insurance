@@ -21,11 +21,11 @@ function LogIn() {
     const handleLogin = (e) => {
         e.preventDefault();
 
-      
+        // Retrieve user data from local storage
         const storedEmail = localStorage.getItem('email');
         const storedPassword = localStorage.getItem('password');
 
-       
+        // Check if entered credentials match stored credentials
         if (formData.email === storedEmail && formData.password === storedPassword) {
             setShowAlert(true);
             setAlertVariant('success');
