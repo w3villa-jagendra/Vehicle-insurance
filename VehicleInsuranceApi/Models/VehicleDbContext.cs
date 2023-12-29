@@ -22,11 +22,7 @@ public class VehicleDbContext : DbContext
         // .WithOne(v => v.User)
         // .HasForeignKey(v => v.UserID)
         // .OnDelete(DeleteBehavior.Cascade);
-
-  
-
-
-
+        
         base.OnModelCreating(modelBuilder);
     }
    
