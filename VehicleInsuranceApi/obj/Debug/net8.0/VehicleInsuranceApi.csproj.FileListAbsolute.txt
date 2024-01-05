@@ -251,3 +251,12 @@
 /home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
 /home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Security.Cryptography.ProtectedData.dll
 /home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Windows.Extensions.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.Azure.KeyVault.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.Azure.KeyVault.WebKey.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.Azure.Services.AppAuthentication.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.Extensions.Configuration.AzureKeyVault.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.Rest.ClientRuntime.dll
+/home/jagemdra/Vs code/Vehicle-Insurance-Project/VehicleInsuranceApi/bin/Debug/net8.0/Microsoft.Rest.ClientRuntime.Azure.dll

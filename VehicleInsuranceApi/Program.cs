@@ -22,11 +22,6 @@ builder.Services.AddControllers();
 
 
 
-
-
-// builder.Services.AddDbContext<UserContext>(opt =>
-//     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 builder.Services.AddDbContext<VehicleDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

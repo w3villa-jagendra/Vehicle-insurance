@@ -4,8 +4,8 @@ namespace VehicleInsuranceApi.Models
 {
     public class Vehicle
     {
-        public long ID { get; set; }
-        public long OwnerID { get; set; }
+        public long Id { get; set; }
+        public long OwnerId { get; set; }
         public string? EngineNumber { get; set; }
         public string? VehicleNumber { get; set; }
         public int VehicleType { get; set; }
