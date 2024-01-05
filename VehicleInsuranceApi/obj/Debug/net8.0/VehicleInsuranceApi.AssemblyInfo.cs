@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VehicleInsuranceApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e8b17e707718d1d0b8e1eea41d2863ef4c7d1a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7164909c24669e2fe04497a02dfa91a4e28bbbc6")]
 [assembly: System.Reflection.AssemblyProductAttribute("VehicleInsuranceApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VehicleInsuranceApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

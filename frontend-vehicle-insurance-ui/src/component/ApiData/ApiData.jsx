@@ -11,7 +11,7 @@ function ApiData(){
         .then((response) => {
           let data = response.data;
           setWeatherData(data);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);

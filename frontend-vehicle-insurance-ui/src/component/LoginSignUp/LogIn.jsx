@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import  axios from "axios";
 import './LogInSignUp.css';
 import { userContext } from "../../utils/userContext";
 function LogIn() {
     const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+        username: '',
+        hashedPassword: ''
     });
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState('success');
@@ -18,30 +19,50 @@ function LogIn() {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
+        console.log(formData)
         e.preventDefault();
+        try {
+      
+              // Use Axios to send the POST request
+              const response = await axios.post(
+                "http://localhost:5113/api/User/login",
+                formData
+              );
 
-        // Retrieve user data from local storage
-        const storedEmail = localStorage.getItem('email');
-        const storedPassword = localStorage.getItem('password');
-
-        // Check if entered credentials match stored credentials
-        if (formData.email === storedEmail && formData.password === storedPassword) {
-            setShowAlert(true);
-            setAlertVariant('success');
-            navigate('/');
-        } else {
-            setShowAlert(true);
-            setAlertVariant('danger');
+              
             
-        }
+              // Check if the registration was successful
+              if (response.status === 201) {
+                // Redirect the user to the login page
+                // navigate("/");
+                console.log(response)
+              } else {
+                // Registration failed, handle errors
+                console.error("Registration failed:", response.statusText);
+              }
+            
+          } catch (error) {
+            console.error("Error during registration:", error);
+          }
+
+        };
+        
+      
+        
+
+        // // Check if entered credentials match stored credentials
+        // if (formData.email === storedEmail && formData.password === storedPassword) {
+        //     setShowAlert(true);
+        //     setAlertVariant('success');
+          
+        // } else {
+        //     setShowAlert(true);
+        //     setAlertVariant('danger');
+            
+        // }
 
         // Automatically hide the alert after 3 seconds
-        setTimeout(() => {
-            setShowAlert(false);
-        }, 3000);
-    };
-console.log(user)
     return (
         <div className="main">
          
@@ -54,12 +75,12 @@ console.log(user)
                 <h1 className="text-center">Login {user && user.username}</h1>
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" name="email" required onChange={handleChange} />
+                        <label htmlFor="username">Username:</label>
+                        <input value={formData.username} type="text" id="email" name="username" required onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" required onChange={handleChange} />
+                        <input type="password" value={formData.hashedPassword} id="password" name="hashedPassword" required onChange={handleChange} />
                     </div>
                     <div className="button">
                         <button type="submit" className="submit-btn">Login</button>
