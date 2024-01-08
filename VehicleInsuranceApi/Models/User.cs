@@ -25,7 +25,7 @@ namespace VehicleInsuranceApi.Models
         // public UserProfile? Profile { get; set; }
 
     
-    //    [JsonIgnore] 
+        //    [JsonIgnore] 
         // public ICollection<UserRole>? UserRoles { get; set; }
     }
 

@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import  axios from "axios";
 import './LogInSignUp.css';
-import { userContext } from "../../utils/userContext";
+
 function LogIn() {
     const [formData, setFormData] = useState({
         username: '',
@@ -12,7 +12,7 @@ function LogIn() {
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState('success');
     const navigate = useNavigate();
-    const {user} = useContext(userContext);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,13 +30,21 @@ function LogIn() {
                 formData
               );
 
+
+            
               
             
               // Check if the registration was successful
-              if (response.status === 201) {
+              if (response.status === 200) {
+
+
+                localStorage.setItem("userData", JSON.stringify(response.data));
                 // Redirect the user to the login page
-                // navigate("/");
-                console.log(response)
+              
+                setShowAlert(true);
+                setAlertVariant('success');
+                console.log(response.data)
+                navigate("/dashboard");
               } else {
                 // Registration failed, handle errors
                 console.error("Registration failed:", response.statusText);
@@ -48,21 +56,8 @@ function LogIn() {
 
         };
         
-      
-        
 
-        // // Check if entered credentials match stored credentials
-        // if (formData.email === storedEmail && formData.password === storedPassword) {
-        //     setShowAlert(true);
-        //     setAlertVariant('success');
-          
-        // } else {
-        //     setShowAlert(true);
-        //     setAlertVariant('danger');
-            
-        // }
-
-        // Automatically hide the alert after 3 seconds
+       
     return (
         <div className="main">
          
@@ -72,7 +67,7 @@ function LogIn() {
                     {alertVariant === 'success' ? 'Login successful!' : 'Invalid credentials!'}
                 </Alert>
             )}
-                <h1 className="text-center">Login {user && user.username}</h1>
+                <h1 className="text-center">Login </h1>
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
                         <label htmlFor="username">Username:</label>

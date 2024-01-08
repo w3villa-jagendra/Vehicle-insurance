@@ -9,16 +9,19 @@ const SignUp = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    vendor:false,
+    customer:false
+    
   });
 
   const { signUp, user } = useContext(userContext);
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
 
 
   useEffect(() => {
+
     const registerUser = async () => {
       try {
         if (user.username) {
@@ -43,7 +46,8 @@ const SignUp = () => {
     };
 
     registerUser();
-  }, [formErrors, user.username, navigate]);
+  }, [formErrors,user, navigate]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +57,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors(validate(formValues));
-    setIsSubmit(true);
+ 
 
     if (Object.keys(formErrors).length === 0) {
       signUp(formValues)
@@ -140,7 +144,7 @@ const SignUp = () => {
             />
           </div>
           <p className='errors'>{formErrors.confirmPassword}</p>
-          <button className="fuild ui button blue">Submit</button>
+          <button className="btn btn-primary">Submit</button>
 
         </div>
       </form>

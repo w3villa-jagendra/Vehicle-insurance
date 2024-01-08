@@ -111,19 +111,7 @@ namespace VehicleInsuranceApi.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
         }
 
-        // [HttpPost("logIn")]
 
-        // public async Task<ActionResult<User>> PostLogin(User user)
-        // {
-
-
-
-
-
-        // //   return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
-        //     return Ok(UserName);
-
-        // }
 
         [HttpPost("login")]
         public async Task<IActionResult> PostLogin(User user)
@@ -147,7 +135,7 @@ namespace VehicleInsuranceApi.Controllers
                 new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
                 new Claim(ClaimTypes.Name, existingUser.Username)
                     }),
-                    Expires = DateTime.UtcNow.AddHours(1), // Set token expiration
+                    Expires = DateTime.UtcNow.AddHours(15), // Set token expiration
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
