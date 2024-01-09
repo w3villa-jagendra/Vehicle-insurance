@@ -21,12 +21,14 @@ function NavBar() {
           <Nav className="me-auto">
          
           
-            <Link to="/" className='anch' >Home</Link>
-            <Link to="/signUp" className='anch' >SignUp</Link>
+            <Link to="/" className='anch mx-3' >Home</Link>
+            {/* <Link to="/" className='anch mx-3 btn btn-primary px-5' >Buy Plans</Link>
+            <Link to="/" className='anch mx-3 btn btn-danger px-5' >Sell Plans</Link> */}
+            <Link to="/signUp" className='anch btn btn-primary px-5' >SignUp</Link>
             <Link to="/logIn" className='anch' >Login</Link>
            
             
-            <NavDropdown title="Insurance Plan" id="basic-nav-dropdown">
+            {/* <NavDropdown title="Insurance Plan" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -34,7 +36,7 @@ function NavBar() {
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleInsuranceApi.Models;
 
@@ -11,9 +12,11 @@ using VehicleInsuranceApi.Models;
 namespace VehicleInsuranceApi.Migrations
 {
     [DbContext(typeof(VehicleDbContext))]
-    partial class VehicleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240108101536_AddVehicleTable")]
+    partial class AddVehicleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,45 +24,6 @@ namespace VehicleInsuranceApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.Plan", b =>
-                {
-                    b.Property<long>("PlanId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PlanId"));
-
-                    b.Property<float?>("BasePrice")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("VehicleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("VehicleType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PlanId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Plans");
-                });
 
             modelBuilder.Entity("VehicleInsuranceApi.Models.User", b =>
                 {
@@ -126,7 +90,7 @@ namespace VehicleInsuranceApi.Migrations
                     b.Property<DateTime?>("MakeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("OwnerId")
+                    b.Property<long>("OwnerId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -143,50 +107,15 @@ namespace VehicleInsuranceApi.Migrations
 
                     b.HasKey("VehicleId");
 
-                    b.HasIndex("OwnerId")
-                        .IsUnique()
-                        .HasFilter("[OwnerId] IS NOT NULL");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("VehicleInsuranceApi.Models.VehicleOwner", b =>
-                {
-                    b.Property<long>("OwnerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("OwnerId"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OwnerAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerPhone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("OwnerId");
-
-                    b.ToTable("VehicleOwners");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.Plan", b =>
+            modelBuilder.Entity("VehicleInsuranceApi.Models.Vehicle", b =>
                 {
                     b.HasOne("VehicleInsuranceApi.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Vehicles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -194,32 +123,9 @@ namespace VehicleInsuranceApi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VehicleInsuranceApi.Models.Vehicle", b =>
-                {
-                    b.HasOne("VehicleInsuranceApi.Models.VehicleOwner", "Owner")
-                        .WithOne("Vehicle")
-                        .HasForeignKey("VehicleInsuranceApi.Models.Vehicle", "OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("VehicleInsuranceApi.Models.User", "User")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("VehicleInsuranceApi.Models.User", b =>
                 {
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("VehicleInsuranceApi.Models.VehicleOwner", b =>
-                {
-                    b.Navigation("Vehicle");
                 });
 #pragma warning restore 612, 618
         }

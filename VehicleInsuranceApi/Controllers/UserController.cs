@@ -97,6 +97,7 @@ namespace VehicleInsuranceApi.Controllers
                 Username = user.Username,
                 Email = user.Email,
                 HashedPassword = hashedPassword,
+                UserRole = user.UserRole,
                 Salt = salt,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
