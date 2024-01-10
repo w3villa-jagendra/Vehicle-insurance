@@ -79,7 +79,7 @@ const Dashboard = () => {
             <Nav className="mr-auto">
               <Nav.Link>Home</Nav.Link>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={handleLogout}>Edit Profile</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleProfile}>Edit Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>

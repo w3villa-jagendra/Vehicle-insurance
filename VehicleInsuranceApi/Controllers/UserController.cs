@@ -29,6 +29,80 @@ namespace VehicleInsuranceApi.Controllers
             _context = context;
         }
 
+        //JWT token
+        public class TokenService
+        {
+            private static TokenService? _instance;
+            private readonly string _secretKey;
+
+
+            public TokenService(string secretKey)
+            {
+                _secretKey = secretKey;
+            }
+            public static TokenService Instance
+            {
+                get
+                {
+                    if (_instance == null)
+                    {
+                        // Initialize the instance with your default secret key
+                        _instance = new TokenService("your_secret_key_your_strong_secret_key_of_at_least_16_characters");
+                    }
+
+                    return _instance;
+                }
+            }
+
+            // Generate Jwt token
+            public string GenerateToken(long userId, string username, int expirationHours = 15)
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_secretKey);
+
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ClaimTypes.Name, username)
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(expirationHours),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var tokenString = tokenHandler.WriteToken(token);
+
+                return tokenString;
+            }
+
+            // Verify the token
+            public bool ValidateToken(string token)
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_secretKey);
+
+                try
+                {
+                    tokenHandler.ValidateToken(token, new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false, // Set to true if you want to validate the issuer
+                        ValidateAudience = false, // Set to true if you want to validate the audience
+                        ClockSkew = TimeSpan.Zero // Set to zero if you want to handle the expiration time exactly
+                    }, out _);
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
         // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -37,18 +111,56 @@ namespace VehicleInsuranceApi.Controllers
         }
 
         [HttpGet("profile")]
-        [Authorize] // This attribute requires a valid JWT token to access the endpoint
         public IActionResult GetProfile()
         {
-            // Access user claims
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+            try
+            {
+                // Access the Authorization header from the request
+                var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
 
-            // You can use the user information as needed
-            var userProfile = new { UserId = userId, Username = username };
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+                    var tokenService = TokenService.Instance;
 
-            return Ok(userProfile);
+                    // Validate and decode the token
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.ASCII.GetBytes("your_secret_key_your_strong_secret_key_of_at_least_16_characters");
+
+                    var validationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.Zero
+                    };
+
+                    SecurityToken validatedToken;
+                    var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+
+                    // Access user claims
+                    var userId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                    var username = claimsPrincipal.FindFirst(ClaimTypes.Name)?.Value;
+
+                    // You can use the user information as needed
+                    var userProfile = new { UserId = userId, Username = username };
+
+                    return Ok(userProfile);
+                }
+                else
+                {
+                    // The Authorization header is missing or not in the expected format
+                    return BadRequest("Invalid Authorization header format");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions as needed
+                return StatusCode(500, ex);
+            }
         }
+
 
         // GET: api/User/5
         [HttpGet("{id}")]
@@ -128,79 +240,7 @@ namespace VehicleInsuranceApi.Controllers
         }
 
 
-        //JWT token
-        public class TokenService
-        {
-            private static TokenService? _instance;
-            private readonly string _secretKey;
 
-
-            public TokenService(string secretKey)
-            {
-                _secretKey = secretKey;
-            }
-            public static TokenService Instance
-            {
-                get
-                {
-                    if (_instance == null)
-                    {
-                        // Initialize the instance with your default secret key
-                        _instance = new TokenService("your_secret_key_your_strong_secret_key_of_at_least_16_characters");
-                    }
-
-                    return _instance;
-                }
-            }
-
-            // Generate Jwt token
-            public string GenerateToken(long userId, string username, int expirationHours = 15)
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_secretKey);
-
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Name, username)
-                    }),
-                    Expires = DateTime.UtcNow.AddHours(expirationHours),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                var tokenString = tokenHandler.WriteToken(token);
-
-                return tokenString;
-            }
-
-            // Verify the token
-            public bool ValidateToken(string token)
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_secretKey);
-
-                try
-                {
-                    tokenHandler.ValidateToken(token, new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false, // Set to true if you want to validate the issuer
-                        ValidateAudience = false, // Set to true if you want to validate the audience
-                        ClockSkew = TimeSpan.Zero // Set to zero if you want to handle the expiration time exactly
-                    }, out _);
-
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
 
         [HttpPost("login")]
         public async Task<IActionResult> PostLogin(User user)

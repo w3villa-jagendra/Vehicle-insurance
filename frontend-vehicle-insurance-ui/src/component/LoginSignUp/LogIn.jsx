@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { setAuthToken } from "../authService"
 import './LogInSignUp.css';
 
 function LogIn() {
@@ -27,16 +26,17 @@ function LogIn() {
                 "http://localhost:5113/api/User/login",
                 formData
             );
-    
+
             if (response.status === 200) {
-                const token = JSON.stringify(response.data.token);
+                const token = response.data.token;
                 console.log(token);
-                setAuthToken(token);
-                
+                localStorage.setItem("authToken", token);
+
                 setShowAlert(true);
                 setAlertVariant('success');
-                navigate("/dashboard");
-              
+                if (localStorage.getItem("authToken")) {
+                    navigate("/dashboard");
+                }
             } else {
                 setAlertVariant('danger');
                 setShowAlert(true);
@@ -49,7 +49,7 @@ function LogIn() {
             console.error("Login failed:", error);
         }
     };
-    
+
 
 
 
