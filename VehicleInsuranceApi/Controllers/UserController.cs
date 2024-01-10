@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +34,20 @@ namespace VehicleInsuranceApi.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+
+        [HttpGet("profile")]
+        [Authorize] // This attribute requires a valid JWT token to access the endpoint
+        public IActionResult GetProfile()
+        {
+            // Access user claims
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+
+            // You can use the user information as needed
+            var userProfile = new { UserId = userId, Username = username };
+
+            return Ok(userProfile);
         }
 
         // GET: api/User/5

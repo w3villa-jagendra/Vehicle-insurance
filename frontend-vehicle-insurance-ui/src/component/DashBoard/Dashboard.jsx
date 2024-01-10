@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navbar, Nav,NavDropdown, Container, Card, Form, FormControl, Button, Image } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Container, Card, Form, FormControl, Button, Image } from "react-bootstrap";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -28,11 +28,43 @@ const Dashboard = () => {
     console.log(`Buy button clicked for Plan ID ${plan.planId}`);
   };
 
+  const handleProfile = () => {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+
+      console.error('Token not available');
+      return;
+    }
+
+
+    const apiUrl = 'http://localhost:5113/api/User/profile';
+
+
+    axios.get(apiUrl, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+
+        console.log('API response:', response.data);
+      })
+      .catch(error => {
+
+        console.error('API request error:', error);
+      });
+  };
+
+
   const handleLogout = () => {
     localStorage.removeItem('authToken');
 
     navigate("/");
-   
+
   };
 
   return (
@@ -47,7 +79,7 @@ const Dashboard = () => {
             <Nav className="mr-auto">
               <Nav.Link>Home</Nav.Link>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#">Edit Profile</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>Edit Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>
