@@ -1,20 +1,17 @@
-// import React, { useState } from 'react';
-
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import SignUp from './component/LoginSignUp/SignUp';
 import Login from './component/LoginSignUp/LogIn';
 import Dashboard from './component/DashBoard/Dashboard';
 import Main from './component/Main/Main';
-
 import './App.css';
 
 function App() {
-  // const [show, setShow] = useState(false);
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+  
 
+  
+
+  const isLoggedIn = !!localStorage.getItem('authToken');
 
   return (
     <div className="App">
@@ -37,7 +34,7 @@ function App() {
           <Route
             path="/dashboard"
             // element={<LogInSignUp handleClose={handleClose} show={show} />}
-            element={<Dashboard/>}
+            element={isLoggedIn ? <Dashboard /> : <Navigate to='/logIn' /> }
           />
         </Routes>
 

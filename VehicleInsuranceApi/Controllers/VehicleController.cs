@@ -43,7 +43,7 @@ public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
 
         if (user == null)
         {
-            return BadRequest("User not found"); // Or handle the error accordingly
+            return BadRequest("User not found"); 
         }
 
         // Create a new vehicle

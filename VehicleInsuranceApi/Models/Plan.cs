@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+
 namespace VehicleInsuranceApi.Models
 {
     public class Plan
