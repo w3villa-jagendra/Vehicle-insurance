@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, {  useContext, useState } from "react";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import './LogInSignUp.css';
+import { userContext } from "../../utils/userContext";
 
 function LogIn() {
+
+    const {user}= useContext(userContext);
+    console.log(user)
     const [formData, setFormData] = useState({
         username: '',
         hashedPassword: ''
@@ -13,6 +17,9 @@ function LogIn() {
     const [alertVariant, setAlertVariant] = useState('success');
     const navigate = useNavigate();
 
+    // const auth = !!localStorage.getItem('authToken');
+
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,6 +27,8 @@ function LogIn() {
     };
 
     const handleLogin = async (e) => {
+
+        
         e.preventDefault();
         try {
             const response = await axios.post(
@@ -32,9 +41,9 @@ function LogIn() {
                 console.log(token);
                 localStorage.setItem("authToken", token);
 
-                setShowAlert(true);
-                setAlertVariant('success');
-                if (localStorage.getItem("authToken")) {
+                
+                if (localStorage.getItem('authToken')) {
+                    console.log('Navigating to /dashboard');
                     navigate("/dashboard");
                 }
             } else {
@@ -42,13 +51,19 @@ function LogIn() {
                 setShowAlert(true);
                 console.error("Login failed:", response.statusText);
             }
+            
         } catch (error) {
-            // Handle login failure and show an alert for invalid credentials
+        
             setAlertVariant('danger');
             setShowAlert(true);
             console.error("Login failed:", error);
         }
+
+     
+    
     };
+
+
 
 
 

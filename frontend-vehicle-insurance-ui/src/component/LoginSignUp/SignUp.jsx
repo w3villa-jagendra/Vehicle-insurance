@@ -1,53 +1,30 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Modal, Button } from 'react-bootstrap';
 import { userContext } from "../../utils/userContext";
 import axios from "axios";
 import "./LogInSignUp.css";
+
+
 const SignUp = () => {
 
   const [formValues, setFormValues] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    vendor:false,
-    customer:false
-    
+    confirmPassword: ""
+
+
   });
 
-  const { signUp, user } = useContext(userContext);
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState("");
   const [formErrors, setFormErrors] = useState({});
+  const {  user, setUser } = useContext(userContext);
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-
-    const registerUser = async () => {
-      try {
-        if (user.username) {
-          // Use Axios to send the POST request
-          const response = await axios.post(
-            "http://localhost:5113/api/User/signUp",
-            user
-          );
-
-          // Check if the registration was successful
-          if (response.status === 201) {
-            // Redirect the user to the login page
-            navigate("/logIn");
-          } else {
-            // Registration failed, handle errors
-            console.error("Registration failed:", response.statusText);
-          }
-        }
-      } catch (error) {
-        console.error("Error during registration:", error);
-      }
-    };
-
-    registerUser();
-  }, [formErrors,user, navigate]);
-
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,11 +34,57 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors(validate(formValues));
- 
+
 
     if (Object.keys(formErrors).length === 0) {
-      signUp(formValues)
+      console.log("Heelo")
+      //set values in userContext
+      setUser({
+        username : formValues.username,
+        email : formValues.email,
+        hashedPassword: formValues.password
+         
+    });
+   
+        console.log(user.username);
+        registerUser();
+      
 
+    }
+
+  };
+
+
+  const registerUser = async () => {
+    try {
+      //if username is filled field, then we can hit the api 
+
+      console.log(user);
+      if (user.username) {
+        // Use Axios to send the POST request
+        const response = await axios.post(
+          "http://localhost:5113/api/User/signUp",
+          user
+        );
+        console.log(response);
+
+        if (response.status === 201) {
+       
+          navigate("/logIn");
+        } else {
+         
+          handleShow();
+
+
+          console.error("Registration failed:", response.statusText);
+        }
+      } else {
+        console.log("Not logdedIn");
+      }
+    } catch (error) {
+      setError(error && error.response.data.errors.Username);
+      handleShow();
+      console.error("Error during registration:", error.response.data.errors.Username);
     }
   };
 
@@ -95,6 +118,18 @@ const SignUp = () => {
 
   return (
     <div className="container mt-5 text-center ">
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{error}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Try With Another User Name</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+
+        </Modal.Footer>
+      </Modal>
 
       <form onSubmit={handleSubmit}>
         <h1>Registration Form</h1>
@@ -144,7 +179,7 @@ const SignUp = () => {
             />
           </div>
           <p className='errors'>{formErrors.confirmPassword}</p>
-          <button className="btn btn-primary">Submit</button>
+          <button className="btn btn-primary" type="submit">Submit</button>
 
         </div>
       </form>

@@ -28,6 +28,10 @@ public class VehicleDbContext : DbContext
     // .HasForeignKey(v => v.UserID)
     // .OnDelete(DeleteBehavior.Cascade);
 
+    // modelBuilder.Entity<User>()
+    //      .HasIndex(u => u.Username)
+    //      .IsUnique();
+
     modelBuilder.Entity<User>()
      .HasMany(u => u.Vehicles)
      .WithOne(v => v.User)

@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './component/LoginSignUp/SignUp';
 import Login from './component/LoginSignUp/LogIn';
 import Dashboard from './component/DashBoard/Dashboard';
+import Profile from './component/Profile/Profile';
+import Vehicle from './component/Vehicle/Vehicle';
 import Main from './component/Main/Main';
 import './App.css';
 
@@ -31,10 +33,21 @@ function App() {
             // element={<LogInSignUp handleClose={handleClose} show={show} />}
             element={<Login/>}
           />
+
           <Route
             path="/dashboard"
             // element={<LogInSignUp handleClose={handleClose} show={show} />}
             element={isLoggedIn ? <Dashboard /> : <Navigate to='/logIn' /> }
+          />
+
+          <Route
+          path="/profile"
+          element={<Profile/>}
+          />
+
+          <Route
+          path="/vehicle"
+          element={<Vehicle/>}
           />
         </Routes>
 

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Navbar, Nav, NavDropdown, Container, Card, Form, FormControl, Button, Image } from "react-bootstrap";
+import { Container, Card,  Button, Image } from "react-bootstrap";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import NavbarProfile from "../NavbarProfile/NavbarProfile";
 
 
 
 const Dashboard = () => {
   const [plans, setPlans] = useState([]);
-  const navigate = useNavigate();
+
 
 
   useEffect(() => {
@@ -28,76 +28,15 @@ const Dashboard = () => {
     console.log(`Buy button clicked for Plan ID ${plan.planId}`);
   };
 
-  const handleProfile = () => {
 
-    const token = localStorage.getItem('authToken');
-
-
-    if (!token) {
-
-      console.error('Token not available');
-      return;
-    }
-
-
-    const apiUrl = 'http://localhost:5113/api/User/profile';
-
-
-    axios.get(apiUrl, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
-
-        console.log('API response:', response.data);
-      })
-      .catch(error => {
-
-        console.error('API request error:', error);
-      });
-  };
-
-
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-
-    navigate("/");
-
-  };
-
+ 
   return (
     <div>
-      <Navbar bg="primary" variant="dark" expand="lg">
-        <Container>
-          <Navbar.Brand href="#" className="font-weight-bold">
-            Your Dashboard
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link>Home</Nav.Link>
-              <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={handleProfile}>Edit Profile</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href="#">Settings</Nav.Link>
-            </Nav>
-            <Form inline className="d-flex">
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-              <Button variant="light" className="mx-3">
-                Search
-              </Button>
-            </Form>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+     <NavbarProfile />
 
       {/* Main Content */}
-      <Container fluid className="content-center">
-        <div className="card-container d-flex flex-wrap mx-5">
+      <Container fluid  className="content-center">
+        <div className="card-container d-flex flex-wrap mx-5 content-center">
           {plans.map(plan => (
             <Card key={plan.planId} style={{ width: '30rem', margin: '10px' }}>
               <Card.Body>

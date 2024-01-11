@@ -8,20 +8,14 @@ export const Provider = ({ children }) => {
     const [user,setUser] = useState({
         username:'',
         email:'',
-        hashedPassword:''
+        hashedPassword:'',
+        userRole:''
     });
-    const signUp =(value)=>{
-        setUser({
-            username : value.username,
-            email : value.email,
-            hashedPassword: value.password
-
-        });
-    }
+    
 
 
     return (
-        <userContext.Provider value={{user,signUp}}>
+        <userContext.Provider value={{user,setUser}}>
             {children}
         </userContext.Provider>
     )
