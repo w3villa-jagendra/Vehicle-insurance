@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Card,  Button, Image } from "react-bootstrap";
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
+import Footer from "../Footer/Footer";
 import NavbarProfile from "../NavbarProfile/NavbarProfile";
 
 
@@ -66,6 +67,7 @@ const Dashboard = () => {
           ))}
         </div>
       </Container>
+      <Footer/>
     </div>
   );
 };

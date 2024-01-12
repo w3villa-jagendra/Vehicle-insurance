@@ -45,10 +45,10 @@ const SignUp = () => {
         hashedPassword: formValues.password
          
     });
-   
+      if (user.username) {
         console.log(user.username);
         registerUser();
-      
+      }
 
     }
 
@@ -59,7 +59,6 @@ const SignUp = () => {
     try {
       //if username is filled field, then we can hit the api 
 
-      console.log(user);
       if (user.username) {
         // Use Axios to send the POST request
         const response = await axios.post(

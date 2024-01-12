@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import NavbarProfile from "../NavbarProfile/NavbarProfile";
+import Footer from "../Footer/Footer";
 const Profile = () => {
   const [profileValues, setProfileValues] = useState({
     firstName: "",
@@ -15,6 +16,7 @@ const Profile = () => {
     const { name, value } = e.target;
     setProfileValues({ ...profileValues, [name]: value });
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +37,9 @@ const Profile = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
+    <NavbarProfile/>
+      <form onSubmit={handleSubmit}>
       <h1 className="text-center">User Profile</h1>
       <div className="ui divider"></div>
       <div className="ui form container">
@@ -94,6 +98,9 @@ const Profile = () => {
         </button>
       </div>
     </form>
+    <Footer/>
+    </>
+  
   );
 };
 

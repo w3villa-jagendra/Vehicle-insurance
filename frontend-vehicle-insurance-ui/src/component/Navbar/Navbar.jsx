@@ -32,7 +32,7 @@ const NavBar = () => {
             <Link to="/" className='anch mx-3' >Home</Link>
             {/* <Link to="/" className='anch mx-3 btn btn-primary px-5' >Buy Plans</Link>
             <Link to="/" className='anch mx-3 btn btn-danger px-5' >Sell Plans</Link> */}
-            <Link to="/signUp" onClick={handleUserRole} className='anch btn btn-primary px-5'  >SignUp</Link>
+            <Link to="/signUp" onClick={handleUserRole} className='anch btn btn-primary px-5'  >Buy Plans</Link>
             <Link to="/logIn" className='anch' >Login</Link>
 
 

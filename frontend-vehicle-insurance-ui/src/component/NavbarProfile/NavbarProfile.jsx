@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+// import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from "react-bootstrap";
 
@@ -7,6 +8,10 @@ import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from "
 const NavbarProfile = () => {
     const navigate = useNavigate();
 
+
+    // const {vehicle} = useParams();
+
+   
 
     const handleShowVehicle = ()=>{
         navigate("/vehicle");
@@ -42,6 +47,7 @@ const NavbarProfile = () => {
           .then(response => {
     
             console.log('API response:', response.data);
+            localStorage.setItem('apiResponse', JSON.stringify(response.data));
           })
           .catch(error => {
     
