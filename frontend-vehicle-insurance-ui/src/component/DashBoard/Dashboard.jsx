@@ -36,7 +36,7 @@ const Dashboard = () => {
      <NavbarProfile />
 
       {/* Main Content */}
-      <Container fluid  className="content-center">
+      <Container fluid  className="content-center my-5" >
         <div className="card-container d-flex flex-wrap mx-5 content-center">
           {plans.map(plan => (
             <Card key={plan.planId} style={{ width: '30rem', margin: '10px' }}>

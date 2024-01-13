@@ -11,7 +11,6 @@ const NavbarProfile = () => {
 
     // const {vehicle} = useParams();
 
-   
 
     const handleShowVehicle = ()=>{
         navigate("/vehicle");
@@ -81,14 +80,18 @@ const NavbarProfile = () => {
             <NavDropdown.Item onClick={handleShowVehicle}>Vehicles</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+          
           </NavDropdown>
           <Nav.Link href="#">Settings</Nav.Link>
         </Nav>
         <Form inline className="d-flex">
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+          <FormControl type="text" placeholder="Search"  />
           <Button variant="light" className="mx-3">
             Search
           </Button>
+          {/* {vehicle && <Button variant="light" >
+           Add 
+          </Button>} */}
         </Form>
       </Navbar.Collapse>
     </Container>

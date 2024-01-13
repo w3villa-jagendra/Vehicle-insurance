@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Footer from '../Footer/Footer';
+import HomePic from '../../assets/img/43023.jpg'
 
 function Home() {
 
@@ -12,7 +13,7 @@ function Home() {
 
             <Container>
                 <h1 id='mainHead' className='text-center mt-5'> Get Your Car Insured</h1>
-                <Image src="https://img.freepik.com/free-vector/people-with-icons-related-car-insurance_53876-43023.jpg?w=1060&t=st=1702552618~exp=1702553218~hmac=0b923fc6d992621747b44ce49cb42e24d586e6200f656280fb59f3eb32672db5" fluid />
+                <Image src={HomePic} fluid />
 
 
                 <Row>

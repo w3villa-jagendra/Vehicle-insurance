@@ -22,21 +22,23 @@ public class VehicleDbContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-    // modelBuilder.Entity<User>()
-    // .HasMany(u => u.Vehicles)
-    // .WithOne(v => v.User)
-    // .HasForeignKey(v => v.UserID)
-    // .OnDelete(DeleteBehavior.Cascade);
+    modelBuilder.Entity<User>()
+    .HasMany(u => u.Vehicles)
+    .WithOne(v => v.User)
+    .HasForeignKey(v => v.UserId)
+    .OnDelete(DeleteBehavior.Cascade);
 
-    // modelBuilder.Entity<User>()
-    //      .HasIndex(u => u.Username)
-    //      .IsUnique();
+    //  modelBuilder.Entity<User>()
+    //  .HasMany(u => u.Vehicles)
+    //  .WithOne(v => v.User)
+    //  .HasForeignKey(v => v.UserId)
+    //  .OnDelete(DeleteBehavior.Restrict);
 
     modelBuilder.Entity<User>()
-     .HasMany(u => u.Vehicles)
-     .WithOne(v => v.User)
-     .HasForeignKey(v => v.UserId)
-     .OnDelete(DeleteBehavior.Restrict);
+         .HasIndex(u => u.Username)
+         .IsUnique();
+
+   
 
     modelBuilder.Entity<VehicleOwner>()
         .HasKey(vo => vo.OwnerId);  // Define the primary key for VehicleOwner

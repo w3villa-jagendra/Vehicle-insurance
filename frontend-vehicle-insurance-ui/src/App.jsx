@@ -47,16 +47,16 @@ function App() {
           />
 
           <Route
-          path="/vehicle"
+          path="/:vehicle"
           // element={<Vehicle/>}
           element={isLoggedIn ? <Vehicle /> : <Navigate to='/logIn' /> }
           />
 
-          <Route
-          path="/vehicle"
+          {/* <Route
+          path="/:vehicle"
           // element={<Vehicle/>}
           element={isLoggedIn ? <AddVehicle /> : <Navigate to='/logIn' /> }
-          />
+          /> */}
           <Route
           path="/addvehicle"
           // element={<Vehicle/>}

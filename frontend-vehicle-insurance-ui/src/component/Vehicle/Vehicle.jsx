@@ -39,7 +39,7 @@ const Vehicle = () => {
 
             <Container fluid className="content-center">
 
-                <div className="card-container d-flex flex-wrap mx-5 content-center">
+                <div className="card-container d-flex flex-wrap m-5 content-center">
                     {plans.map(plan => (
                         <Card key={plan.vehicleId} style={{ width: '30rem', margin: '10px' }}>
                             <Card.Body>
@@ -58,7 +58,7 @@ const Vehicle = () => {
                                     <strong>Engine Number:</strong> {plan.engineNumber}
                                     <br />
                                     <strong>Vehicle Number:</strong> {plan.vehicleNumber}
-                                    {/* Add other properties you want to display */}
+                                    
                                 </Card.Text>
                                 <Card.Footer className="d-flex flex-row-reverse">
                                     <Button variant="primary" className="px-4" >
