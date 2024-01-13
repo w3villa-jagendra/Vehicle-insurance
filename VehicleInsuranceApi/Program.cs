@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VehicleInsuranceApi.Models;
+using VehicleInsuranceApi.Services;
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // var frontendURL =  configuration.GetValue<string>("frontend-url");
@@ -12,14 +13,13 @@ builder.Services.AddCors(options =>
     options.AddPolicy(MyAllowSpecificOrigins,
                       policy =>
                       {
-                        policy.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
+                          policy.WithOrigins("http://localhost:3000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
                       });
 });
 
 builder.Services.AddControllers();
-
 
 
 builder.Services.AddDbContext<VehicleDbContext>(opt =>
@@ -28,6 +28,11 @@ builder.Services.AddDbContext<VehicleDbContext>(opt =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<TokenService>(x =>
+new TokenService(builder.Configuration.GetValue<string>("secretKey")!));
+
 
 var app = builder.Build();
 
