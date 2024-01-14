@@ -33,46 +33,66 @@ namespace VehicleInsuranceApi.Controllers
         }
 
 
-    [HttpPost]
-public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
-{
-    try
-    {
-        // Find the existing user by Id
-        var user = _context.Users.Find(vehicle.UserId);
 
-        if (user == null)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetVehiclesByUserId(long userId)
         {
-            return BadRequest("User not found"); 
+            try
+            {
+                // Retrieve the user's vehicles
+                var vehicles = await _context.Vehicles
+                    .Where(v => v.UserId == userId)
+                    .ToListAsync();
+
+                return Ok(vehicles);
+            }
+            catch (Exception)
+            {
+                // Handle exceptions appropriately, e.g., log the error and return a 500 response
+                return StatusCode(500, "Error retrieving vehicles");
+            }
         }
 
-        // Create a new vehicle
-        var newVehicle = new Vehicle
+        [HttpPost]
+        public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
-            VehicleType = vehicle.VehicleType,
-            EngineNumber = vehicle.EngineNumber,
-            VehicleNumber = vehicle.VehicleNumber,
-            UserId = vehicle.UserId, 
-            User = user, 
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
+            try
+            {
+                // Find the existing user by Id
+                var user = _context.Users.Find(vehicle.UserId);
 
-        // Add the new vehicle to the context
-        _context.Vehicles.Add(newVehicle);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
 
-        // Save changes to the database
-        await _context.SaveChangesAsync();
+                // Create a new vehicle
+                var newVehicle = new Vehicle
+                {
+                    VehicleType = vehicle.VehicleType,
+                    EngineNumber = vehicle.EngineNumber,
+                    VehicleNumber = vehicle.VehicleNumber,
+                    UserId = vehicle.UserId,
+                    User = user,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
 
-        // Return the created vehicle
-        return CreatedAtAction(nameof(GetVehicles), new { id = newVehicle.VehicleId }, newVehicle);
-    }
-    catch (Exception ex)
-    {
-        // Handle exceptions appropriately (log, return error response, etc.)
-        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-    }
-}
+                // Add the new vehicle to the context
+                _context.Vehicles.Add(newVehicle);
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return the created vehicle
+                return CreatedAtAction(nameof(GetVehicles), new { id = newVehicle.VehicleId }, newVehicle);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (log, return error response, etc.)
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
 
 
     }

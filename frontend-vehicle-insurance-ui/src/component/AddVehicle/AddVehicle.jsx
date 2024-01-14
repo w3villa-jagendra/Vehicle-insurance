@@ -6,31 +6,28 @@ import NavbarProfile from '../NavbarProfile/NavbarProfile';
 import Footer from '../Footer/Footer';
 
 const AddVehicle = () => {
-
     const navigate = useNavigate();
 
     const [userId, setUserId] = useState(null);
     const [formData, setFormData] = useState({
-        userId: null, // Initialize to null
+        userId: userId,
         vehicleType: "",
         engineNumber: "",
         vehicleNumber: "",
     });
 
     useEffect(() => {
-       
         const storedData = localStorage.getItem('apiResponse');
         if (storedData) {
             const parsedData = JSON.parse(storedData);
-            
             setUserId(parsedData.userId);
-           
-            setFormData({
-                ...formData,
+            setFormData((prevFormData) => ({
+                ...prevFormData,
                 userId: parsedData.userId,
-            });
+            }));
         }
-    }, []); 
+    }, []);
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,14 +40,12 @@ const AddVehicle = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(formData);
             const response = await Axios.post('http://localhost:5113/api/Vehicle', formData);
-
 
             console.log('Data posted successfully:', response);
 
             if (response.status === 201) {
-                navigate('/vehicle'); // Assuming '/Vehicle' is the route you want to navigate to
+                navigate('/vehicle');
             }
         } catch (error) {
             if (error.response) {
@@ -95,7 +90,7 @@ const AddVehicle = () => {
                             onChange={handleChange} />
                     </Form.Group>
 
-                    <Button variant="primary" type="submit" className= "my-3">
+                    <Button variant="primary" type="submit" className="my-3">
                         Submit
                     </Button>
                 </Form>

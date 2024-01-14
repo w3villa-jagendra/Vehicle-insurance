@@ -5,6 +5,7 @@ import Login from './component/LoginSignUp/LogIn';
 import Dashboard from './component/DashBoard/Dashboard';
 import Profile from './component/Profile/Profile';
 import Vehicle from './component/Vehicle/Vehicle';
+import Plan from './component/Plan/Plan';
 import AddVehicle from './component/AddVehicle/AddVehicle';
 import Main from './component/Main/Main';
 import './App.css';
@@ -51,12 +52,12 @@ function App() {
           // element={<Vehicle/>}
           element={isLoggedIn ? <Vehicle /> : <Navigate to='/logIn' /> }
           />
-
-          {/* <Route
-          path="/:vehicle"
+          <Route
+          path="/plan"  
           // element={<Vehicle/>}
-          element={isLoggedIn ? <AddVehicle /> : <Navigate to='/logIn' /> }
-          /> */}
+          element={isLoggedIn ? <Plan /> : <Navigate to='/logIn' /> }
+          />
+
           <Route
           path="/addvehicle"
           // element={<Vehicle/>}

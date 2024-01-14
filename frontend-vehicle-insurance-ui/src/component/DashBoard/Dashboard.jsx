@@ -16,14 +16,23 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:5113/api/Plan');
-        setPlans(response.data);
+  
+        // Sort the plans by the 'createdAt' property in descending order
+        const sortedPlans = response.data.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB - dateA;
+        });
+  
+        setPlans(sortedPlans);
       } catch (error) {
         console.error('Error fetching plan data:', error);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   const handleBuyButtonClick = (plan) => {
     console.log(`Buy button clicked for Plan ID ${plan.planId}`);

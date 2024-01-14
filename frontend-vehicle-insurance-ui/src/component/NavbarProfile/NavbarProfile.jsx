@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import axios from 'axios';
 // import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -6,63 +6,55 @@ import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from "
 
 
 const NavbarProfile = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
 
-    // const {vehicle} = useParams();
-
-
-    const handleShowVehicle = ()=>{
-        navigate("/vehicle");
-      }
-
-    const handleHome =()=>{
-        navigate("/dashboard")
+    if (!token) {
+      console.error('Token not available');
+      return;
     }
-      
-    
-    
-      const handleProfile = () => {
-    
-        const token = localStorage.getItem('authToken');
-    
-        
-        if (!token) {
-    
-          console.error('Token not available');
-          return;
-        }
-    
-    
-        const apiPlan = 'http://localhost:5113/api/User/profile';
-    
-    
-        axios.get(apiPlan, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(response => {
-    
-            console.log('API response:', response.data);
-            localStorage.setItem('apiResponse', JSON.stringify(response.data));
-          })
-          .catch(error => {
-    
-            console.error('API request error:', error);
-          });
-    
-          navigate("/profile");
-      };
-    
-    
-      const handleLogout = () => {
-        localStorage.removeItem('authToken');
-    
-        navigate("/");
-    
-      };
+
+    const apiPlan = 'http://localhost:5113/api/User/profile';
+
+    axios.get(apiPlan, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        console.log('API response:', response.data);
+        localStorage.setItem('apiResponse', JSON.stringify(response.data));
+      })
+      .catch(error => {
+        console.error('API request error:', error);
+      });
+  }, []); 
+
+  const handleShowVehicle = () => {
+    navigate("/vehicle");
+  }
+
+  const handleHome = () => {
+    navigate("/dashboard");
+  }
+
+  const handleProfile = () => {
+    navigate("/profile");
+  }
+
+  const handleShowPlans =()=>{
+    navigate("/plan")
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('apiResponse');
+    navigate("/");
+  };
+
     
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
@@ -78,6 +70,8 @@ const NavbarProfile = () => {
             <NavDropdown.Item onClick={handleProfile}>Edit Profile</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleShowVehicle}>Vehicles</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={handleShowPlans}>Plans</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
           

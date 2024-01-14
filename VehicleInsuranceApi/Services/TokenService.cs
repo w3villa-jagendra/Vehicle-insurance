@@ -10,7 +10,7 @@ namespace VehicleInsuranceApi.Services
 {
     public class TokenService
     {
-        private static TokenService? _instance;
+
         private readonly string _secretKey;
 
         public TokenService(string secretKey)
@@ -22,22 +22,9 @@ namespace VehicleInsuranceApi.Services
             _secretKey = secretKey;
         }
 
-        public static TokenService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    // Initialize the instance with your default secret key
-                    _instance = new TokenService("your_secret_key_your_strong_secret_key_of_at_least_16_characters");
-                }
-
-                return _instance;
-            }
-        }
 
         // Generate Jwt token
-        public string GenerateToken(long userId, string username, int expirationHours = 15)
+        public string GenerateToken(long userId, string username, string userRole, int expirationHours = 15)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secretKey);
@@ -47,7 +34,8 @@ namespace VehicleInsuranceApi.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                    new Claim(ClaimTypes.Name, username)
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Role, userRole)
                 }),
                 Expires = DateTime.UtcNow.AddHours(expirationHours),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -76,7 +64,6 @@ namespace VehicleInsuranceApi.Services
                     ClockSkew = TimeSpan.Zero // Set to zero if you want to handle the expiration time exactly
                 }, out _);
 
-                // var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
 
                 return true;
             }

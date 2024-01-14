@@ -28,6 +28,24 @@ namespace VehicleInsuranceApi.Controllers
         }
 
 
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<Plan>>> GetPlansByUserId(int userId)
+        {
+            var userPlans = await _context.Plans
+                                            .Where(p => p.UserId == userId)
+                                            .ToListAsync();
+
+            if (userPlans == null || userPlans.Count == 0)
+            {
+                return NotFound($"No plans found for the user with ID: {userId}");
+            }
+
+            return userPlans;
+        }
+
+
+
         [HttpPost]
         public async Task<ActionResult<Plan>> PostPlan(Plan plan)
         {
@@ -48,21 +66,21 @@ namespace VehicleInsuranceApi.Controllers
                     BasePrice = plan.BasePrice,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
-                 };
+                };
 
                 _context.Plans.Add(newPlan);
 
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
 
-            return CreatedAtAction("GetPlan", new { id = newPlan.PlanId }, newPlan);
+                return CreatedAtAction("GetPlan", new { id = newPlan.PlanId }, newPlan);
             }
             catch (Exception ex)
             {
-                
+
                 return BadRequest($"Error: {ex.Message}");
-             }
+            }
         }
     }
 }

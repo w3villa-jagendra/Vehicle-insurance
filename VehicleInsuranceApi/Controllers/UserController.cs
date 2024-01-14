@@ -60,8 +60,9 @@ namespace VehicleInsuranceApi.Controllers
                     {
                         var userId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                         var username = claimsPrincipal.FindFirst(ClaimTypes.Name)?.Value;
+                        var userRole = claimsPrincipal.FindFirst(ClaimTypes.Role)?.Value;
 
-                        var userProfile = new { UserId = userId, Username = username };
+                        var userProfile = new { UserId = userId, Username = username, UserRole = userRole };
 
                         return Ok(userProfile);
                     }
@@ -175,9 +176,9 @@ namespace VehicleInsuranceApi.Controllers
 
             if (BCrypt.Net.BCrypt.Verify(user.HashedPassword, existingUser.HashedPassword))
             {
-               
 
-                var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username);
+                var userRole = existingUser.UserRole ?? "customer";
+                var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username, existingUser.UserRole);
 
                 // Return token to the frontend
                 return Ok(new { token = tokenString });

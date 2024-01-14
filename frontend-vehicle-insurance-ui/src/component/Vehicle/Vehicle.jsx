@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const Vehicle = () => {
 
     const navigate = useNavigate();
-    const [plans, setPlans] = useState([]);
+    const [vehicles, setVehicles] = useState([]);
 
     const handleAddVehicle = () => {
         navigate("/addvehicle");
@@ -19,8 +19,14 @@ const Vehicle = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await Axios.get('http://localhost:5113/api/Vehicle');
-                setPlans(response.data);
+                // Retrieve user ID from localStorage
+                const userId = JSON.parse(localStorage.getItem('apiResponse')).userId;
+
+                // Use the user ID to fetch data for that specific user
+                const response = await Axios.get(`http://localhost:5113/api/Vehicle/${userId}`);
+
+                const sortedVehicles = response.data.sort((a, b) => b.vehicleId - a.vehicleId);
+                setVehicles(sortedVehicles);    
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -40,11 +46,11 @@ const Vehicle = () => {
             <Container fluid className="content-center">
 
                 <div className="card-container d-flex flex-wrap m-5 content-center">
-                    {plans.map(plan => (
-                        <Card key={plan.vehicleId} style={{ width: '30rem', margin: '10px' }}>
+                    {vehicles.map(vehicle => (
+                        <Card key={vehicle.vehicleId} style={{ width: '30rem', margin: '10px' }}>
                             <Card.Body>
                                 <Card.Title className="d-flex justify-content-between">
-                                    {plan.vehicleType}
+                                    {vehicle.vehicleType}
                                     <Image
                                         src="https://via.placeholder.com/100x50" // URL for your placeholder image
                                         alt="Vehicle Type Placeholder"
@@ -53,11 +59,11 @@ const Vehicle = () => {
                                     />
                                 </Card.Title>
                                 <Card.Text>
-                                    <strong>Vehicle ID:</strong> {plan.vehicleId}
+                                    <strong>Vehicle ID:</strong> {vehicle.vehicleId}
                                     <br />
-                                    <strong>Engine Number:</strong> {plan.engineNumber}
+                                    <strong>Engine Number:</strong> {vehicle.engineNumber}
                                     <br />
-                                    <strong>Vehicle Number:</strong> {plan.vehicleNumber}
+                                    <strong>Vehicle Number:</strong> {vehicle.vehicleNumber}
                                     
                                 </Card.Text>
                                 <Card.Footer className="d-flex flex-row-reverse">
