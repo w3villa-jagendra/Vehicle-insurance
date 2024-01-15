@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VehicleInsuranceApi.Models;
 using Microsoft.EntityFrameworkCore;
-
+using VehicleInsuranceApi.Services;
 
 namespace VehicleInsuranceApi.Controllers
 {
@@ -16,9 +16,12 @@ namespace VehicleInsuranceApi.Controllers
     {
         private readonly VehicleDbContext _context;
 
-        public PlanController(VehicleDbContext context)
+        private readonly TokenService _tokenService;
+
+        public PlanController(VehicleDbContext context, TokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -29,7 +32,7 @@ namespace VehicleInsuranceApi.Controllers
 
 
 
-        [HttpGet("{userId}")]
+        [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlansByUserId(int userId)
         {
             var userPlans = await _context.Plans
@@ -43,6 +46,49 @@ namespace VehicleInsuranceApi.Controllers
 
             return userPlans;
         }
+
+
+    //GET Plan by PlanId
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Plan>> GetPlanById(long id)
+        {
+            try
+            {
+                var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+                    var validToken = _tokenService.ValidateToken(token);
+
+                    if (validToken)
+                    {
+                        var plan = await _context.Plans.FindAsync(id);
+
+                        if (plan == null)
+                        {
+                            return NotFound($"Plan with ID {id} not found");
+                        }
+
+                        return plan;
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid token");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid Authorization header format");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
 
 
 
@@ -82,5 +128,73 @@ namespace VehicleInsuranceApi.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPlan(long id, Plan updatedPlan)
+        {
+
+            try
+            {
+                var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+                    var validToken = _tokenService.ValidateToken(token);
+
+                    if (validToken)
+                    {
+                        var existingPlan = await _context.Plans.FindAsync(id);
+
+                        if (existingPlan == null)
+                        {
+                            return NotFound($"Plan with ID {id} not found");
+                        }
+
+                        // Update the existing plan properties
+
+
+
+                        existingPlan.VehicleType = updatedPlan.VehicleType;
+                        existingPlan.CompanyName = updatedPlan.CompanyName;
+                        existingPlan.PlanDetails = updatedPlan.PlanDetails;
+                        existingPlan.BasePrice = updatedPlan.BasePrice;
+                        existingPlan.UpdatedAt = DateTime.UtcNow;
+
+                        // Mark the plan as modified and save changes
+                        _context.Entry(existingPlan).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
+
+                        return NoContent();
+
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid token");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid Authorization header format");
+                }
+
+
+                // Assuming you have a reference to the associated User, you can set it here
+                // If UserId is coming from the request, you may need to adjust this accordingly
+                // updatedPlan.UserId = ...;
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
     }
 }

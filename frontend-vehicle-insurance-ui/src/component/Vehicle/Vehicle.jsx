@@ -16,6 +16,7 @@ const Vehicle = () => {
         navigate("/addvehicle");
     }
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -23,7 +24,7 @@ const Vehicle = () => {
                 const userId = JSON.parse(localStorage.getItem('apiResponse')).userId;
 
                 // Use the user ID to fetch data for that specific user
-                const response = await Axios.get(`http://localhost:5113/api/Vehicle/${userId}`);
+                const response = await Axios.get(`http://localhost:5113/api/Vehicle/user/${userId}`);
 
                 const sortedVehicles = response.data.sort((a, b) => b.vehicleId - a.vehicleId);
                 setVehicles(sortedVehicles);    
@@ -34,6 +35,10 @@ const Vehicle = () => {
 
         fetchData();
     }, []);
+
+    const handleEditPlan = (id)=>{
+        navigate(`/vehicle/editvehicle/${id}`);
+    }
 
 
 
@@ -67,7 +72,7 @@ const Vehicle = () => {
                                     
                                 </Card.Text>
                                 <Card.Footer className="d-flex flex-row-reverse">
-                                    <Button variant="primary" className="px-4" >
+                                    <Button variant="primary" className="px-4" onClick={() => handleEditPlan(vehicle.vehicleId)} >
                                         Edit
                                     </Button>
                                 </Card.Footer>

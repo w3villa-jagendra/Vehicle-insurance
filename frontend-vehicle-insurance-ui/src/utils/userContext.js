@@ -12,6 +12,7 @@ export const Provider = ({ children }) => {
         userRole:''
     });
     
+    console.log(user);
 
 
     return (

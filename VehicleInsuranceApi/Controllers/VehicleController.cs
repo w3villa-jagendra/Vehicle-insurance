@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VehicleInsuranceApi.Models;
+using VehicleInsuranceApi.Services;
 
 
 namespace VehicleInsuranceApi.Controllers
@@ -16,10 +17,12 @@ namespace VehicleInsuranceApi.Controllers
     public class VehicleController : ControllerBase
     {
         private readonly VehicleDbContext _context;
+        private readonly TokenService _tokenService;
 
-        public VehicleController(VehicleDbContext context)
+        public VehicleController(VehicleDbContext context, TokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
 
@@ -34,7 +37,7 @@ namespace VehicleInsuranceApi.Controllers
 
 
 
-        [HttpGet("{userId}")]
+        [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetVehiclesByUserId(long userId)
         {
             try
@@ -52,6 +55,108 @@ namespace VehicleInsuranceApi.Controllers
                 return StatusCode(500, "Error retrieving vehicles");
             }
         }
+
+
+        // Get Plan id by Vehicle ID
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Vehicle>> GetVehicleById(long id)
+        {
+            try
+            {
+                var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+                    var validToken = _tokenService.ValidateToken(token);
+
+                    if (validToken)
+                    {
+
+                        var vehicle = await _context.Vehicles.FindAsync(id);
+
+                        if (vehicle == null)
+                        {
+                            return NotFound($"Plan with ID {id} not found");
+                        }
+
+                        return vehicle;
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid token");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid Authorization header format");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
+
+        //PUT for VehicleID
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutVehicle(long id, Vehicle updatedVehicle)
+        {
+            try
+            {
+                var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+                    var validToken = _tokenService.ValidateToken(token);
+
+                    if (validToken)
+                    {
+                        // Retrieve the existing vehicle by ID
+                        var existingVehicle = await _context.Vehicles.FindAsync(id);
+
+                        if (existingVehicle == null)
+                        {
+                            return NotFound($"Vehicle with ID {id} not found");
+                        }
+
+                        // Update the existing vehicle properties
+                        existingVehicle.VehicleType = updatedVehicle.VehicleType;
+                        existingVehicle.EngineNumber = updatedVehicle.EngineNumber;
+                        existingVehicle.VehicleNumber = updatedVehicle.VehicleNumber;
+                        existingVehicle.UpdatedAt = DateTime.UtcNow;
+
+                        // Mark the vehicle as modified and save changes
+                        _context.Entry(existingVehicle).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
+
+                        // Return a NoContent response
+                        return NoContent();
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid token");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid Authorization header format");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately, e.g., log the error and return a 500 response
+                return StatusCode(500, $"Error updating vehicle: {ex.Message}");
+            }
+        }
+    
+
 
         [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)

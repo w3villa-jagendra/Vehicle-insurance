@@ -1,23 +1,38 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 // import NavDropdown from 'react-bootstrap/NavDropdown';
 import { userContext } from '../../utils/userContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css'
-import { useContext } from 'react';
 
 
 
 const NavBar = () => {
-
-  const { user } = useContext(userContext);
+  const {user,setUser} = useContext(userContext)  
+  const navigate = useNavigate()
 
   // const [userRole, setUserRole] = useState({ userRole: "" });
 
-  const handleUserRole = () => {
-    user.userRole = "customer"
+  useEffect(() => {
+    // Retrieve userRole from localStorage when the component mounts
+    const storedUserRole = localStorage.getItem('userRole');
+    if (storedUserRole) {
+      setUser({ ...user, userRole: storedUserRole });
+    }
+  }, []);
+
+  const handleBuy = () => {
+    setUser({ ...user, userRole: 'customer' });
+    localStorage.setItem('userRole', 'customer'); // Store in localStorage
+    navigate("/signUp");
+  }
+
+  const handleSell = () => {
+    setUser({ ...user, userRole: 'vendor' });
+    localStorage.setItem('userRole', 'vendor'); // Store in localStorage
+    navigate("/signUp");
   }
 
   return (
@@ -32,7 +47,8 @@ const NavBar = () => {
             <Link to="/" className='anch mx-3' >Home</Link>
             {/* <Link to="/" className='anch mx-3 btn btn-primary px-5' >Buy Plans</Link>
             <Link to="/" className='anch mx-3 btn btn-danger px-5' >Sell Plans</Link> */}
-            <Link to="/signUp" onClick={handleUserRole} className='anch btn btn-primary px-5'>Buy Plans</Link>
+            <button  onClick={handleBuy} className='anch btn btn-primary text-white px-5'>Buy Plans</button>
+            <button  onClick={handleSell} className='anch btn text-white px-5 mx-3 btn-danger'>Sell Plans</button>
             <Link to="/logIn" className='anch' >Login</Link>
 
 

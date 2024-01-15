@@ -1,4 +1,4 @@
-import React, {  useContext, useState } from "react";
+import React, {   useState, useContext } from "react";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
@@ -10,6 +10,7 @@ function LogIn() {
     const {user}= useContext(userContext);
     console.log(user)
     const [formData, setFormData] = useState({
+
         username: '',
         hashedPassword: ''
     });
@@ -17,7 +18,7 @@ function LogIn() {
     const [alertVariant, setAlertVariant] = useState('success');
     const navigate = useNavigate();
 
-    // const auth = !!localStorage.getItem('authToken');
+
 
 
 
@@ -26,6 +27,7 @@ function LogIn() {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    console.log(formData);
     const handleLogin = async (e) => {
 
         
@@ -36,6 +38,8 @@ function LogIn() {
                 formData
             );
 
+          
+
             if (response.status === 200) {
                 const token = response.data.token;
                 console.log(token);
@@ -43,7 +47,7 @@ function LogIn() {
 
                 
                 if (localStorage.getItem('authToken')) {
-                    console.log('Navigating to /dashboard');
+                 
                     navigate("/dashboard");
                 }
             } else {
@@ -81,11 +85,11 @@ function LogIn() {
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
                         <label htmlFor="username">Username:</label>
-                        <input value={formData.username} type="text" id="email" name="username" required onChange={handleChange} />
+                        <input value={formData.username} type="text" id="username" name="username" required onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" value={formData.hashedPassword} id="password" name="hashedPassword" required onChange={handleChange} />
+                        <label htmlFor="hashedPassword">Password:</label>
+                        <input type="password" value={formData.hashedPassword} id="hashedPassword" name="hashedPassword" required onChange={handleChange} />
                     </div>
                     <div className="button">
                         <button type="submit" className="submit-btn">Login</button>

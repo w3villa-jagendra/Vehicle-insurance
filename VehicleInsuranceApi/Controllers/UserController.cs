@@ -98,34 +98,40 @@ namespace VehicleInsuranceApi.Controllers
 
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, User user)
-        {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> PutUser(long id, User user)
+        // {
+        //   var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
+        //      if (existingUser == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     else
+        //     {
+        //         return Ok(existingUser);
+        //     }
 
-            _context.Entry(user).State = EntityState.Modified;
+        //     _context.Entry(user).State = EntityState.Modified;  
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
-        }
+        //     try
+        //     {
+        //         await _context.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         if (!UserExists(id))
+        //         {
+        //             return NotFound();
+        //         }
+        //         else
+        //         {
+        //             throw;
+        //         }
+        //     }
+
+        //     return NoContent();
+        // }
 
         // POST: api/User/signUp
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

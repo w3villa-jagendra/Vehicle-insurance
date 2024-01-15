@@ -12,14 +12,20 @@ const Plan = () => {
     const [plans, setPlans] = useState([]);
 
     const handleAddPlan = () => {
-        navigate('/addplan');
+        navigate('/plan/addplan');
     };
+
+    const handleEditPlan = (id) => {
+        navigate(`/plan/editplan/${id}`);
+    }
+
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const userId = JSON.parse(localStorage.getItem('apiResponse')).userId;
-                const response = await Axios.get(`http://localhost:5113/api/Plan/${userId}`);
+                const response = await Axios.get(`http://localhost:5113/api/Plan/user/${userId}`);
                 const sortedPlans = response.data.sort((a, b) => b.planId - a.planId);
                 setPlans(sortedPlans);
             } catch (error) {
@@ -43,7 +49,7 @@ const Plan = () => {
             <Container fluid className="content-center">
                 <div className="card-container d-flex flex-wrap m-5 content-center">
                     {plans.map(plan => (
-                        <Card key={plan.planId} style={{ width: '18rem', margin: '10px' }}>
+                        <Card key={plan.planId} style={{ width: '30rem', margin: '10px' }}>
                             <Card.Body>
                                 <Card.Title>{plan.vehicleType}</Card.Title>
                                 <Card.Text>
@@ -56,7 +62,7 @@ const Plan = () => {
                                     <strong>Base Price:</strong> {plan.basePrice}
                                 </Card.Text>
                                 <Card.Footer className="d-flex flex-row-reverse">
-                                    <Button variant="primary" className="px-4">
+                                    <Button variant="primary" className="px-4" onClick={() => handleEditPlan(plan.planId)}>
                                         Edit
                                     </Button>
                                 </Card.Footer>

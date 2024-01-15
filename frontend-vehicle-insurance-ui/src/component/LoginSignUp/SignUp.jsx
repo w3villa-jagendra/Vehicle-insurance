@@ -8,20 +8,31 @@ import "./LogInSignUp.css";
 
 const SignUp = () => {
 
-  const [formValues, setFormValues] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-
-
-  });
 
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const {  user, setUser } = useContext(userContext);
   const navigate = useNavigate();
+
+
+  const userRole =   localStorage.getItem('userRole',user.userRole);
+
+  const [formValues, setFormValues] = useState({
+
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+   userRole:null
+
+
+
+  });
+
+
+
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -37,22 +48,25 @@ const SignUp = () => {
 
 
     if (Object.keys(formErrors).length === 0) {
-      console.log("Heelo")
+     
       //set values in userContext
       setUser({
         username : formValues.username,
         email : formValues.email,
-        hashedPassword: formValues.password
-         
+        hashedPassword: formValues.password,
+        userRole:userRole 
     });
-      if (user.username) {
+      if (user.username ) {
         console.log(user.username);
         registerUser();
       }
 
     }
+    
 
   };
+
+  console.log(user)
 
 
   const registerUser = async () => {
