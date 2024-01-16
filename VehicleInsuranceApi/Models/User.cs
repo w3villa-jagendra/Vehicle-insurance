@@ -11,15 +11,15 @@ namespace VehicleInsuranceApi.Models
     {
         public long Id { get; set; }
 
-        
+
         // [Unique(ErrorMessage = "Username is already taken.")]
-        
+
         public required string Username { get; set; }
-        public  string?  FirstName { get; set; }
-        public  string?  LastName { get; set; }
-       
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+
         public string? Email { get; set; }
-       
+
         public required string HashedPassword { get; set; }
         public string? Salt { get; set; }
 
@@ -33,6 +33,7 @@ namespace VehicleInsuranceApi.Models
 
 
         public ICollection<Vehicle>? Vehicles { get; set; }
+        public ICollection<Transaction>? Transactions { get; set; }
     }
 }
 

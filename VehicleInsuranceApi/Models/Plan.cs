@@ -24,6 +24,8 @@ namespace VehicleInsuranceApi.Models
         [JsonIgnore]
         public User? User { get; set; }
 
+        [JsonIgnore]
+        public ICollection<Transaction>? Transactions { get; set; }
 
     }
 }

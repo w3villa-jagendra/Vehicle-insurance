@@ -10,7 +10,7 @@ public class VehicleDbContext : DbContext
   public DbSet<Vehicle> Vehicles { get; set; }
   public DbSet<VehicleOwner> VehicleOwners { get; set; }
   public DbSet<Plan> Plans { get; set; }
-
+  public DbSet<Transaction> Transactions { get; set; }
 
 
 
@@ -38,10 +38,10 @@ public class VehicleDbContext : DbContext
          .HasIndex(u => u.Username)
          .IsUnique();
 
-   
+
 
     modelBuilder.Entity<VehicleOwner>()
-        .HasKey(vo => vo.OwnerId);  // Define the primary key for VehicleOwner
+        .HasKey(vo => vo.OwnerId);
 
     modelBuilder.Entity<Vehicle>()
         .HasOne(v => v.User)
@@ -56,7 +56,31 @@ public class VehicleDbContext : DbContext
     .OnDelete(DeleteBehavior.Cascade);
 
 
-    base.OnModelCreating(modelBuilder);
+    modelBuilder.Entity<Transaction>()
+              .Property(t => t.TotalAmount)
+              .HasPrecision(18, 2);
+
+   modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.User)
+                .WithMany(u => u.Transactions)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.TransactionPlan)
+                .WithMany(p => p.Transactions)
+                .HasForeignKey(t => t.PlanId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.TransactionVehicle)
+                .WithMany(v => v.Transactions)
+                .HasForeignKey(t => t.VehicleId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+              
+          
+           base.OnModelCreating(modelBuilder);
   }
 
 
