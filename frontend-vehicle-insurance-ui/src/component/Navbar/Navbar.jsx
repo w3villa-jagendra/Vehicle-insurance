@@ -21,6 +21,7 @@ const NavBar = () => {
     if (storedUserRole) {
       setUser({ ...user, userRole: storedUserRole });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleBuy = () => {

@@ -42,7 +42,7 @@ namespace VehicleInsuranceApi.Controllers
         {
             try
             {
-                // Retrieve the user's vehicles
+                
                 var vehicles = await _context.Vehicles
                     .Where(v => v.UserId == userId)
                     .ToListAsync();

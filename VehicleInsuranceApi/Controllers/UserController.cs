@@ -184,7 +184,7 @@ namespace VehicleInsuranceApi.Controllers
             {
 
                 var userRole = existingUser.UserRole ?? "customer";
-                var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username, existingUser.UserRole);
+                var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username, userRole);
 
                 // Return token to the frontend
                 return Ok(new { token = tokenString });

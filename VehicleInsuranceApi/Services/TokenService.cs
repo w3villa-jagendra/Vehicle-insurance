@@ -91,5 +91,34 @@ namespace VehicleInsuranceApi.Services
             SecurityToken validatedToken;
             return tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
         }
+
+
+
+        //Retrive token from the authorization header
+        public bool IsTokenValid(string authorizationHeader)
+        {
+            try
+            {
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+                    var validToken = ValidateToken(token);
+
+                    return validToken;
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
     }
 }

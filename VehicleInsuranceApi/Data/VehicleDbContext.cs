@@ -28,11 +28,7 @@ public class VehicleDbContext : DbContext
     .HasForeignKey(v => v.UserId)
     .OnDelete(DeleteBehavior.Cascade);
 
-    //  modelBuilder.Entity<User>()
-    //  .HasMany(u => u.Vehicles)
-    //  .WithOne(v => v.User)
-    //  .HasForeignKey(v => v.UserId)
-    //  .OnDelete(DeleteBehavior.Restrict);
+
 
     modelBuilder.Entity<User>()
          .HasIndex(u => u.Username)
@@ -66,7 +62,7 @@ public class VehicleDbContext : DbContext
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Transaction>()
+   modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.TransactionPlan)
                 .WithMany(p => p.Transactions)
                 .HasForeignKey(t => t.PlanId)

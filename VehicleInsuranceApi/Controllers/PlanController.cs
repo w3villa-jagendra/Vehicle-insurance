@@ -35,20 +35,50 @@ namespace VehicleInsuranceApi.Controllers
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlansByUserId(int userId)
         {
-            var userPlans = await _context.Plans
-                                            .Where(p => p.UserId == userId)
-                                            .ToListAsync();
 
-            if (userPlans == null || userPlans.Count == 0)
+            try
             {
-                return NotFound($"No plans found for the user with ID: {userId}");
+                var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+                    var validToken = _tokenService.ValidateToken(token);
+
+                    if (validToken)
+                    {
+
+                        var userPlans = await _context.Plans
+                                         .Where(p => p.UserId == userId)
+                                         .ToListAsync();
+
+                        if (userPlans == null || userPlans.Count == 0)
+                        {
+                            return NotFound($"No plans found for the user with ID: {userId}");
+                        }
+
+                        return userPlans;
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid token");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid Authorization header format");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
             }
 
-            return userPlans;
         }
 
 
-    //GET Plan by PlanId
+        //GET Plan by PlanId
         [HttpGet("{id}")]
         public async Task<ActionResult<Plan>> GetPlanById(long id)
         {
@@ -128,6 +158,7 @@ namespace VehicleInsuranceApi.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+
 
 
 
