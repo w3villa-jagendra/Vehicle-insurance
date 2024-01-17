@@ -180,10 +180,10 @@ namespace VehicleInsuranceApi.Controllers
                 return NotFound();
             }
 
-            if (BCrypt.Net.BCrypt.Verify(user.HashedPassword, existingUser.HashedPassword))
+            if (BCrypt.Net.BCrypt.Verify(user.HashedPassword, existingUGetClaimsPrincipalser.HashedPassword))
             {
 
-                var userRole = existingUser.UserRole ?? "customer";
+                var userRole = existingUser.UserRole;
                 var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username, userRole);
 
                 // Return token to the frontend

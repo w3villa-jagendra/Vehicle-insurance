@@ -63,7 +63,7 @@ function App() {
             element={isLoggedIn ? <AddVehicle /> : <Navigate to='/logIn' />}
           />
 
-<Route
+          <Route
             path="/vehicle/editvehicle/:vehicleId"
             // element={<Vehicle/>}
             element={isLoggedIn ? <EditVehicle /> : <Navigate to='/logIn' />}

@@ -41,6 +41,9 @@ const Dashboard = () => {
     const fetchData = async () => {
 
       try {
+
+
+
         const response = await axios.get('http://localhost:5113/api/Plan');
 
         const sortedPlans = response.data.sort((a, b) => {
@@ -53,6 +56,7 @@ const Dashboard = () => {
       } catch (error) {
         console.error('Error fetching plan data:', error);
       }
+
     };
 
     fetchData();
@@ -61,8 +65,15 @@ const Dashboard = () => {
 
   const handleClose = () => {
 
-    buyTransaction();
+    setTransaction({
+      userId: null,
+      vehicleId: null,
+      planId: null,
+      totalAmount: null,
+    })
+    
     setShow(false);
+
   };
 
   const handleShow = () => {
@@ -86,13 +97,16 @@ const Dashboard = () => {
 
       const data = response.data;
 
-      if(response.status === 201){
+      if (response.status === 201) {
         alert(`You have buy a plan with the TransationId: ${data.transactionId}`);
+
+
       }
       console.log(response);
     } catch (error) {
       console.log(error);
     }
+    handleClose();
   }
 
 
@@ -221,7 +235,7 @@ const Dashboard = () => {
           <Button variant="secondary" onClick={handleClose}>
             Cancle
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={buyTransaction} >
             Buy Plan
           </Button>
 

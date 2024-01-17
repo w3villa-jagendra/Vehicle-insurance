@@ -26,13 +26,13 @@ const NavBar = () => {
 
   const handleBuy = () => {
     setUser({ ...user, userRole: 'customer' });
-    localStorage.setItem('userRole', 'customer'); // Store in localStorage
+    localStorage.setItem('userRole', 'customer'); 
     navigate("/signUp");
   }
 
   const handleSell = () => {
     setUser({ ...user, userRole: 'vendor' });
-    localStorage.setItem('userRole', 'vendor'); // Store in localStorage
+    localStorage.setItem('userRole', 'vendor');
     navigate("/signUp");
   }
 

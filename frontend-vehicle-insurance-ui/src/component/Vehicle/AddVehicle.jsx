@@ -18,12 +18,16 @@ const AddVehicle = () => {
 
     useEffect(() => {
         const storedData = localStorage.getItem('apiResponse');
+        const parsedData = JSON.parse(storedData);
+        const userId = parsedData.userId;
+
+        setUserId(userId);
         if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            setUserId(parsedData.userId);
+                     
             setFormData((prevFormData) => ({
                 ...prevFormData,
-                userId: parsedData.userId,
+                userId:userId
+                ,
             }));
         }
     }, []);
@@ -60,8 +64,13 @@ const AddVehicle = () => {
 
     return (
         <>
+                    
             <NavbarProfile />
+
             <Container className='my-5'>
+                
+                      <h1 className='text-center'>Add New Vehicle</h1>
+             
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="vehicleType">
                         <Form.Label>Vehicle Type</Form.Label>

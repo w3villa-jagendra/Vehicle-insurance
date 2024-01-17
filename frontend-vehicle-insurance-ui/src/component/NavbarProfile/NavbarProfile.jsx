@@ -25,7 +25,7 @@ const NavbarProfile = () => {
       },
     })
       .then(response => {
-        console.log('API response:', response.data);
+        // console.log('API response:', response.data);
         localStorage.setItem('apiResponse', JSON.stringify(response.data));
       })
       .catch(error => {

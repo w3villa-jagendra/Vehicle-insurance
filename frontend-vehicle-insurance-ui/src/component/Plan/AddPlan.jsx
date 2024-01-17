@@ -109,6 +109,7 @@ function FormExample() {
         <>
             <NavbarProfile />
             <Container className='my-5'>
+            <h1 className='text-center'>Add New Plan</h1>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row className="mb-3">
                         <Form.Group as={Col} md="6" controlId="validationCustom01">

@@ -1,4 +1,4 @@
-import React, {   useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
@@ -7,7 +7,7 @@ import { userContext } from "../../utils/userContext";
 
 function LogIn() {
 
-    const {user}= useContext(userContext);
+    const { user } = useContext(userContext);
     console.log(user)
     const [formData, setFormData] = useState({
 
@@ -30,7 +30,7 @@ function LogIn() {
     console.log(formData);
     const handleLogin = async (e) => {
 
-        
+
         e.preventDefault();
         try {
             const response = await axios.post(
@@ -38,16 +38,26 @@ function LogIn() {
                 formData
             );
 
-          
+
 
             if (response.status === 200) {
                 const token = response.data.token;
                 console.log(token);
                 localStorage.setItem("authToken", token);
 
-                
+
                 if (localStorage.getItem('authToken')) {
-                 
+
+
+                    const userResponse = await axios.get('http://localhost:5113/api/User/profile', {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    });
+
+                    const userData = userResponse.data;
+                    localStorage.setItem('apiResponse', JSON.stringify(userData));
+
                     navigate("/dashboard");
                 }
             } else {
@@ -55,20 +65,17 @@ function LogIn() {
                 setShowAlert(true);
                 console.error("Login failed:", response.statusText);
             }
-            
+
         } catch (error) {
-        
+
             setAlertVariant('danger');
             setShowAlert(true);
             console.error("Login failed:", error);
         }
 
-     
-    
+
+
     };
-
-
-
 
 
 

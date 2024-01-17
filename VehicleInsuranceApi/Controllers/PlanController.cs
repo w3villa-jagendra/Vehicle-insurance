@@ -45,10 +45,12 @@ namespace VehicleInsuranceApi.Controllers
                     var token = authorizationHeader.Substring("Bearer ".Length).Trim();
 
                     var validToken = _tokenService.ValidateToken(token);
+                    
 
                     if (validToken)
                     {
 
+                        
                         var userPlans = await _context.Plans
                                          .Where(p => p.UserId == userId)
                                          .ToListAsync();
