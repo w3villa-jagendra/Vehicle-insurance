@@ -6,7 +6,6 @@ import Footer from "../Footer/Footer";
 import NavbarProfile from "../NavbarProfile/NavbarProfile";
 
 
-
 const Dashboard = () => {
   const [plans, setPlans] = useState([]);
 
@@ -71,7 +70,7 @@ const Dashboard = () => {
       planId: null,
       totalAmount: null,
     })
-    
+
     setShow(false);
 
   };

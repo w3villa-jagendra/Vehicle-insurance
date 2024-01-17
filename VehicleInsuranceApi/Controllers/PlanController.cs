@@ -27,7 +27,39 @@ namespace VehicleInsuranceApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlan()
         {
-            return await _context.Plans.ToListAsync();
+              try
+            {
+                var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+
+                if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
+                {
+                    var token = authorizationHeader.Substring("Bearer ".Length).Trim();
+
+                    var validToken = _tokenService.ValidateToken(token);
+                    
+
+                    if (validToken)
+                    {
+                        return await _context.Plans.ToListAsync();
+                      
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid token");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid Authorization header format");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+
+
+          
         }
 
 

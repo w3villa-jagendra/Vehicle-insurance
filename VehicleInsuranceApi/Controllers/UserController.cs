@@ -180,7 +180,7 @@ namespace VehicleInsuranceApi.Controllers
                 return NotFound();
             }
 
-            if (BCrypt.Net.BCrypt.Verify(user.HashedPassword, existingUGetClaimsPrincipalser.HashedPassword))
+            if (BCrypt.Net.BCrypt.Verify(user.HashedPassword, existingUser.HashedPassword))
             {
 
                 var userRole = existingUser.UserRole;
