@@ -16,7 +16,8 @@ import './App.css';
 function App() {
 
 
-
+  const storedApiResponse = !!JSON.parse(localStorage.getItem('apiResponse'));
+  const userRole = storedApiResponse.userRole;
 
   const isLoggedIn = !!localStorage.getItem('authToken');
 
@@ -52,38 +53,43 @@ function App() {
 
           <Route
             path="/vehicle"
-            // element={<Vehicle/>}
-            element={isLoggedIn ? <Vehicle /> : <Navigate to='/logIn' />}
+
+            element={isLoggedIn ? (
+              userRole === 'customer'||'admin' ? <Vehicle /> : <Navigate to='/dashboard' /> ) : <Navigate to='/logIn' />}
           />
 
 
           <Route
-            path="/addvehicle"
-            // element={<Vehicle/>}
-            element={isLoggedIn ? <AddVehicle /> : <Navigate to='/logIn' />}
+            path="/vehicle/addvehicle"
+
+            element={isLoggedIn ? (userRole === 'customer'||'admin' ? <AddVehicle /> : <Navigate to='/dashboard' />) : <Navigate to='/logIn' />}
           />
 
           <Route
             path="/vehicle/editvehicle/:vehicleId"
-            // element={<Vehicle/>}
-            element={isLoggedIn ? <EditVehicle /> : <Navigate to='/logIn' />}
+
+            element={isLoggedIn ?( userRole === 'customer'||'admin' ?  <EditVehicle /> : <Navigate to='/dashboard' />)  : <Navigate to='/logIn' />}
           />
 
           <Route
             path="/plan"
-            // element={<Vehicle/>}
-            element={isLoggedIn ? <Plan /> : <Navigate to='/logIn' />}
+
+            element={isLoggedIn ? ( userRole === 'vendor'||'admin'? <Plan /> : <Navigate to='/dashboard' /> ): (<Navigate to='/logIn' />)}
           />
 
           <Route
             path="/plan/addplan"
-            // element={<Vehicle/>}
-            element={isLoggedIn ? <AddPlan /> : <Navigate to='/logIn' />}
+
+        
+            element={isLoggedIn ? ( userRole === 'vendor'||'admin'? <AddPlan /> : <Navigate to='/dashboard' /> ): (<Navigate to='/logIn' />)}
+
           />
           <Route
             path="/plan/editplan/:planId"
-            // element={<Vehicle/>}
-            element={isLoggedIn ? <EditPlan /> : <Navigate to='/logIn' />}
+
+          
+            element={isLoggedIn ? ( userRole === 'vendor'||'admin'?  <EditPlan />  : <Navigate to='/dashboard' /> ): (<Navigate to='/logIn' />)}
+
           />
 
 

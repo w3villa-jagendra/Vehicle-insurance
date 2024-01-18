@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleInsuranceApi.Models;
 
@@ -11,9 +12,11 @@ using VehicleInsuranceApi.Models;
 namespace VehicleInsuranceApi.Migrations
 {
     [DbContext(typeof(VehicleDbContext))]
-    partial class VehicleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240117111933_AddTimeStampInTransaction")]
+    partial class AddTimeStampInTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,12 +185,6 @@ namespace VehicleInsuranceApi.Migrations
                     b.Property<long?>("OwnerId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("PlanId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("PlansPlanId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -205,8 +202,6 @@ namespace VehicleInsuranceApi.Migrations
                     b.HasIndex("OwnerId")
                         .IsUnique()
                         .HasFilter("[OwnerId] IS NOT NULL");
-
-                    b.HasIndex("PlansPlanId");
 
                     b.HasIndex("UserId");
 
@@ -247,9 +242,9 @@ namespace VehicleInsuranceApi.Migrations
             modelBuilder.Entity("VehicleInsuranceApi.Models.Plan", b =>
                 {
                     b.HasOne("VehicleInsuranceApi.Models.User", "User")
-                        .WithMany("Plans")
+                        .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -289,10 +284,6 @@ namespace VehicleInsuranceApi.Migrations
                         .HasForeignKey("VehicleInsuranceApi.Models.Vehicle", "OwnerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("VehicleInsuranceApi.Models.Plan", "Plans")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("PlansPlanId");
-
                     b.HasOne("VehicleInsuranceApi.Models.User", "User")
                         .WithMany("Vehicles")
                         .HasForeignKey("UserId")
@@ -301,22 +292,16 @@ namespace VehicleInsuranceApi.Migrations
 
                     b.Navigation("Owner");
 
-                    b.Navigation("Plans");
-
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("VehicleInsuranceApi.Models.Plan", b =>
                 {
                     b.Navigation("Transactions");
-
-                    b.Navigation("Vehicles");
                 });
 
             modelBuilder.Entity("VehicleInsuranceApi.Models.User", b =>
                 {
-                    b.Navigation("Plans");
-
                     b.Navigation("Transactions");
 
                     b.Navigation("Vehicles");

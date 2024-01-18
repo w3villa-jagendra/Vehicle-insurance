@@ -43,7 +43,11 @@ const Dashboard = () => {
 
 
 
-        const response = await axios.get('http://localhost:5113/api/Plan');
+        const response = await axios.get('http://localhost:5113/api/Plan', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
 
         const sortedPlans = response.data.sort((a, b) => {
           const dateA = new Date(a.createdAt);

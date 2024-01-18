@@ -13,7 +13,7 @@ const Vehicle = () => {
     const [vehicles, setVehicles] = useState([]);
 
     const handleAddVehicle = () => {
-        navigate("/addvehicle");
+        navigate("/vehicle/addvehicle");
     }
 
 

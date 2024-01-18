@@ -6,6 +6,7 @@ namespace VehicleInsuranceApi.Models
     {
         public long VehicleId { get; set; }
         public long UserId { get; set; }
+        public int? PlanId { get; set; }
         public long? OwnerId { get; set; }
 
         public bool IsActive { get; set; }
@@ -19,6 +20,9 @@ namespace VehicleInsuranceApi.Models
 
         [JsonIgnore]
         public User? User { get; set; }
+
+        [JsonIgnore]
+        public Plan? Plans { get; set; }
 
         [JsonIgnore]
         public VehicleOwner? Owner { get; set; }

@@ -17,14 +17,16 @@ namespace VehicleInsuranceApi.Models
         [Required]
         public long VehicleId { get; set; }
 
-       
-        public decimal TotalAmount { get; set; }
 
-      
+        public decimal TotalAmount { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
+
         public DateTime TransactionDate { get; set; }
 
         [JsonIgnore]
-        public User? User { get; set; } 
+        public User? User { get; set; }
 
         [JsonIgnore]
 

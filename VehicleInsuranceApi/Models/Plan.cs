@@ -21,8 +21,13 @@ namespace VehicleInsuranceApi.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+
+
         [JsonIgnore]
         public User? User { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Vehicle>? Vehicles { get; set; }
 
         [JsonIgnore]
         public ICollection<Transaction>? Transactions { get; set; }

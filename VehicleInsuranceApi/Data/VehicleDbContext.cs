@@ -28,6 +28,11 @@ public class VehicleDbContext : DbContext
     .HasForeignKey(v => v.UserId)
     .OnDelete(DeleteBehavior.Cascade);
 
+    modelBuilder.Entity<User>()
+    .HasMany(u => u.Plans)
+    .WithOne(p => p.User)
+    .HasForeignKey(p => p.UserId);
+
 
 
     modelBuilder.Entity<User>()
@@ -52,31 +57,42 @@ public class VehicleDbContext : DbContext
     .OnDelete(DeleteBehavior.Cascade);
 
 
+
+    modelBuilder.Entity<Plan>()
+    .HasOne(p => p.User)
+    .WithMany(v => v.Plans)
+    .HasForeignKey(v => v.UserId)
+ .OnDelete(DeleteBehavior.Restrict);
+
+
+   
+
+
     modelBuilder.Entity<Transaction>()
               .Property(t => t.TotalAmount)
               .HasPrecision(18, 2);
 
-   modelBuilder.Entity<Transaction>()
-                .HasOne(t => t.User)
-                .WithMany(u => u.Transactions)
-                .HasForeignKey(t => t.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+    modelBuilder.Entity<Transaction>()
+                 .HasOne(t => t.User)
+                 .WithMany(u => u.Transactions)
+                 .HasForeignKey(t => t.UserId)
+                 .OnDelete(DeleteBehavior.Cascade);
 
-   modelBuilder.Entity<Transaction>()
-                .HasOne(t => t.TransactionPlan)
-                .WithMany(p => p.Transactions)
-                .HasForeignKey(t => t.PlanId)
-                .OnDelete(DeleteBehavior.Restrict);
+    modelBuilder.Entity<Transaction>()
+                 .HasOne(t => t.TransactionPlan)
+                 .WithMany(p => p.Transactions)
+                 .HasForeignKey(t => t.PlanId)
+                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Transaction>()
-                .HasOne(t => t.TransactionVehicle)
-                .WithMany(v => v.Transactions)
-                .HasForeignKey(t => t.VehicleId)
-                .OnDelete(DeleteBehavior.Restrict);
-                
-              
-          
-           base.OnModelCreating(modelBuilder);
+    modelBuilder.Entity<Transaction>()
+        .HasOne(t => t.TransactionVehicle)
+        .WithMany(v => v.Transactions)
+        .HasForeignKey(t => t.VehicleId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+
+
+    base.OnModelCreating(modelBuilder);
   }
 
 

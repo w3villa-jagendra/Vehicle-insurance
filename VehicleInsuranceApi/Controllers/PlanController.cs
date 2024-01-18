@@ -8,6 +8,7 @@ using VehicleInsuranceApi.Models;
 using Microsoft.EntityFrameworkCore;
 using VehicleInsuranceApi.Services;
 
+
 namespace VehicleInsuranceApi.Controllers
 {
     [Route("api/[controller]")]
@@ -27,7 +28,7 @@ namespace VehicleInsuranceApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlan()
         {
-              try
+            try
             {
                 var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
 
@@ -36,12 +37,12 @@ namespace VehicleInsuranceApi.Controllers
                     var token = authorizationHeader.Substring("Bearer ".Length).Trim();
 
                     var validToken = _tokenService.ValidateToken(token);
-                    
+
 
                     if (validToken)
                     {
                         return await _context.Plans.ToListAsync();
-                      
+
                     }
                     else
                     {
@@ -59,7 +60,7 @@ namespace VehicleInsuranceApi.Controllers
             }
 
 
-          
+
         }
 
 
@@ -77,12 +78,12 @@ namespace VehicleInsuranceApi.Controllers
                     var token = authorizationHeader.Substring("Bearer ".Length).Trim();
 
                     var validToken = _tokenService.ValidateToken(token);
-                    
+
 
                     if (validToken)
                     {
 
-                        
+
                         var userPlans = await _context.Plans
                                          .Where(p => p.UserId == userId)
                                          .ToListAsync();

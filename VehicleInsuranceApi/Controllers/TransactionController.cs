@@ -96,7 +96,7 @@ namespace VehicleInsuranceApi.Controllers
             {
                 var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
 
-             
+
                 if (authorizationHeader != null && authorizationHeader.StartsWith("Bearer "))
                 {
                     var token = authorizationHeader.Substring("Bearer ".Length).Trim();
@@ -104,6 +104,17 @@ namespace VehicleInsuranceApi.Controllers
 
                     if (validToken)
                     {
+
+                        Transaction newTransaction = new Transaction
+                        {
+
+                            UserId = transaction.UserId,
+                            PlanId = transaction.PlanId,
+                            VehicleId = transaction.VehicleId,
+                            TotalAmount = transaction.TotalAmount,
+                            CreatedAt = DateTime.UtcNow,
+                            UpdatedAt = DateTime.UtcNow
+                        };
                         _context.Transactions.Add(transaction);
                         await _context.SaveChangesAsync();
 
@@ -117,7 +128,7 @@ namespace VehicleInsuranceApi.Controllers
                 }
                 else
                 {
-                    
+
                     return StatusCode(401, "Unauthorized");
                 }
 

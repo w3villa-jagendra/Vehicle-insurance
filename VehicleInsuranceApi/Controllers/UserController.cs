@@ -96,43 +96,8 @@ namespace VehicleInsuranceApi.Controllers
             return user;
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutUser(long id, User user)
-        // {
-        //   var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
-        //      if (existingUser == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     else
-        //     {
-        //         return Ok(existingUser);
-        //     }
 
-        //     _context.Entry(user).State = EntityState.Modified;  
-
-
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!UserExists(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
-
-        //     return NoContent();
-        // }
-
+ 
         // POST: api/User/signUp
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("signUp")]
@@ -184,7 +149,7 @@ namespace VehicleInsuranceApi.Controllers
             {
 
                 var userRole = existingUser.UserRole;
-                var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username, userRole);
+                var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username, userRole!);
 
                 // Return token to the frontend
                 return Ok(new { token = tokenString });

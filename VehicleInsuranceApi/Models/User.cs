@@ -33,6 +33,8 @@ namespace VehicleInsuranceApi.Models
 
 
         public ICollection<Vehicle>? Vehicles { get; set; }
+
+        public ICollection<Plan>? Plans { get; set; }
         public ICollection<Transaction>? Transactions { get; set; }
     }
 }
