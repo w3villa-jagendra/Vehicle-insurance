@@ -19,14 +19,14 @@ const Plan = () => {
         navigate(`/plan/editplan/${id}`);
     }
 
-const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const userId = JSON.parse(localStorage.getItem('apiResponse')).userId;
 
-                const response = await Axios.get(`http://localhost:5113/api/Plan/user/${userId}`,{
+                const response = await Axios.get(`http://localhost:5113/api/Plan/user/${userId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -40,6 +40,7 @@ const token = localStorage.getItem('authToken');
         };
 
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

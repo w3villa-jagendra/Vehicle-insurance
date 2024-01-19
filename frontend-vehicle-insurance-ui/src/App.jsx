@@ -10,6 +10,7 @@ import AddVehicle from './component/Vehicle/AddVehicle';
 import EditVehicle from './component/Vehicle/EditVehicle';
 import AddPlan from './component/Plan/AddPlan';
 import EditPlan from './component/Plan/EditPlan'
+import Transactions from './component/Transaction/Transactions';
 import Main from './component/Main/Main';
 import './App.css';
 
@@ -89,6 +90,13 @@ function App() {
 
           
             element={isLoggedIn ? ( userRole === 'vendor'||'admin'?  <EditPlan />  : <Navigate to='/dashboard' /> ): (<Navigate to='/logIn' />)}
+
+          />
+          <Route
+            path="/transactions"
+
+          
+            element={isLoggedIn ? ( userRole === 'customer'||'vendor'||'admin'?  <Transactions />  : <Navigate to='/dashboard' /> ): (<Navigate to='/logIn' />)}
 
           />
 

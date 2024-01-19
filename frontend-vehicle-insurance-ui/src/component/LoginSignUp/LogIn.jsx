@@ -28,6 +28,9 @@ function LogIn() {
     };
 
     console.log(formData);
+
+
+ 
     const handleLogin = async (e) => {
 
 
@@ -90,6 +93,7 @@ function LogIn() {
                 )}
                 <h1 className="text-center">Login </h1>
                 <form onSubmit={handleLogin}>
+
                     <div className="form-group">
                         <label htmlFor="username">Username:</label>
                         <input value={formData.username} type="text" id="username" name="username" required onChange={handleChange} />

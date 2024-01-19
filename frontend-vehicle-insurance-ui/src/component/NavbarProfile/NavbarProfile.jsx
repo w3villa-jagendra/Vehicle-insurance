@@ -27,11 +27,6 @@ const NavbarProfile = () => {
       .then(response => {
         // console.log('API response:', response.data);
         localStorage.setItem('apiResponse', JSON.stringify(response.data));
-
-
-
-
-
       })
       .catch(error => {
         console.error('API request error:', error);
@@ -40,6 +35,7 @@ const NavbarProfile = () => {
 
   const storedApiResponse = JSON.parse(localStorage.getItem('apiResponse'));
   // Extract userRole from apiResponse
+  const userName  = storedApiResponse.username;
   const userRole = storedApiResponse.userRole;
  
 
@@ -61,6 +57,10 @@ const NavbarProfile = () => {
     navigate("/plan")
   }
 
+  const showTransactions = ()=>{
+    navigate("/transactions")
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('apiResponse');
@@ -72,10 +72,10 @@ const NavbarProfile = () => {
     <Navbar bg="primary" variant="dark" expand="lg">
       <Container>
         <Navbar.Brand href="#" className="font-weight-bold">
-          Your Dashboard
+          {userName}  Dashboard
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Collapse id="basic-navbar-nav" className='justify-content-end'>
           <Nav className="mr-auto">
             <Nav.Link onClick={handleHome}>Home</Nav.Link>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
@@ -105,10 +105,15 @@ const NavbarProfile = () => {
             <Button variant="light" className="mx-3">
               Search
             </Button>
+          
             {/* {vehicle && <Button variant="light" >
             Add 
             </Button>} */}
           </Form>
+
+          <Button variant="info text-white" className="mx-3" onClick={showTransactions} >
+              Your Transactions
+            </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>

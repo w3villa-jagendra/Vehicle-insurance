@@ -63,6 +63,7 @@ const Dashboard = () => {
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -140,24 +141,34 @@ const Dashboard = () => {
 
   //on buy button click show the modal , set plan and setTransaction details
   const handleBuyButtonClick = (plan) => {
-    handleShow();
+  
 
     // console.log(userId);
+    if (storedUser.userRole === "vendor") 
+    {
+      alert("You Are a Vendor. /n You can Sell Plan Only!!!");
+    } 
+    else
+     {
+      handleShow();
 
-    setTransaction({
-      ...transaction,
-      userId: userId,
-      planId: plan.planId,
-      totalAmount: plan.basePrice,
-    });
+      setTransaction({
+        ...transaction,
+        userId: userId,
+        planId: plan.planId,
+        totalAmount: plan.basePrice,
+      });
 
-    setbuyPlan({
-      companyName: plan.companyName,
-      planDetails: plan.planDetails,
-      vehicleType: plan.vehicleType,
-      basePrice: plan.basePrice
+      setbuyPlan({
+        companyName: plan.companyName,
+        planDetails: plan.planDetails,
+        vehicleType: plan.vehicleType,
+        basePrice: plan.basePrice
 
-    })
+      })
+    }
+
+
   };
 
 

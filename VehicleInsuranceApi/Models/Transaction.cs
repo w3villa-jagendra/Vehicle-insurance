@@ -19,10 +19,8 @@ namespace VehicleInsuranceApi.Models
 
 
         public decimal TotalAmount { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-
-
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public DateTime TransactionDate { get; set; }
 
         [JsonIgnore]
