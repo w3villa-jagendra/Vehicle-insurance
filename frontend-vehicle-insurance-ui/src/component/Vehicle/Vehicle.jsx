@@ -20,10 +20,10 @@ const Vehicle = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Retrieve user ID from localStorage
+                
                 const userId = JSON.parse(localStorage.getItem('apiResponse')).userId;
 
-                // Use the user ID to fetch data for that specific user
+               
                 const response = await Axios.get(`http://localhost:5113/api/Vehicle/user/${userId}`);
 
                 const sortedVehicles = response.data.sort((a, b) => b.vehicleId - a.vehicleId);

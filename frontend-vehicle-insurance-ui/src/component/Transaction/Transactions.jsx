@@ -49,8 +49,9 @@ const Transactions = () => {
                             <th>Company Name</th>
                             <th>Plan Details</th>
                             <th>Total Amount</th>
-                            <th>Transaction Date</th>
                             <th>Vehicle Number</th>
+                            <th>Transaction Date</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -59,8 +60,9 @@ const Transactions = () => {
                                 <td>{transaction.companyName}</td>
                                 <td>{transaction.planDetails}</td>
                                 <td>{transaction.totalAmount}</td>
-                                <td>{new Date(transaction.transactionDate).toLocaleString()}</td>
                                 <td>{transaction.vehicleNumber}</td>
+                                <td>{new Date(transaction.transactionDate).toLocaleString()}</td>
+                              
                             </tr>
                         ))}
                     </tbody>

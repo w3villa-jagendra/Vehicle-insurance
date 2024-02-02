@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -34,11 +34,20 @@ const NavbarProfile = () => {
   }, []);
 
   const storedApiResponse = JSON.parse(localStorage.getItem('apiResponse'));
-  // Extract userRole from apiResponse
-  const userName  = storedApiResponse.username;
-  const userRole = storedApiResponse.userRole;
- 
 
+  const userName = storedApiResponse.username;
+  const userRole = storedApiResponse.userRole;
+
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearchInputChange = (event) => {
+    setSearchValue(event.target.value);
+  }
+
+  const handleSearchButtonClick = () => {
+    console.log('Search Input Value', searchValue);
+  }
 
 
   const handleShowVehicle = () => {
@@ -52,12 +61,15 @@ const NavbarProfile = () => {
   const handleProfile = () => {
     navigate("/profile");
   }
+  const handleUsers = () => {
+    navigate("/users");
+  }
 
   const handleShowPlans = () => {
     navigate("/plan")
   }
 
-  const showTransactions = ()=>{
+  const showTransactions = () => {
     navigate("/transactions")
   }
 
@@ -72,7 +84,7 @@ const NavbarProfile = () => {
     <Navbar bg="primary" variant="dark" expand="lg">
       <Container>
         <Navbar.Brand href="#" className="font-weight-bold">
-          {userName}  Dashboard
+          {userName}'s  Dashboard
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className='justify-content-end'>
@@ -92,6 +104,8 @@ const NavbarProfile = () => {
                   <NavDropdown.Item onClick={handleShowVehicle}>Vehicles</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={handleShowPlans}>Plans</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleUsers}>Users</NavDropdown.Item>
                 </>
               )}
               <NavDropdown.Divider />
@@ -101,19 +115,16 @@ const NavbarProfile = () => {
             <Nav.Link href="#">Settings</Nav.Link>
           </Nav>
           <Form inline className="d-flex">
-            <FormControl type="text" placeholder="Search" />
-            <Button variant="light" className="mx-3">
+            <FormControl type="text" placeholder="Search" name='search' value={searchValue} onChange={handleSearchInputChange} />
+            <Button variant="light" className="mx-3"  onClick={handleSearchButtonClick} >
               Search
             </Button>
-          
-            {/* {vehicle && <Button variant="light" >
-            Add 
-            </Button>} */}
           </Form>
 
           <Button variant="info text-white" className="mx-3" onClick={showTransactions} >
-              Your Transactions
-            </Button>
+            Your Transactions
+          </Button>
+          
         </Navbar.Collapse>
       </Container>
     </Navbar>

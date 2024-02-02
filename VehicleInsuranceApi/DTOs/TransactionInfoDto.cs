@@ -9,3 +9,4 @@ namespace VehicleInsuranceApi.DTOs
         public string? VehicleNumber { get; set; }
     }
 }
+

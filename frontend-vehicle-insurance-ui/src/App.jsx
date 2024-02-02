@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './component/LoginSignUp/SignUp';
 import Login from './component/LoginSignUp/LogIn';
 import Dashboard from './component/DashBoard/Dashboard';
+import Users from './component/Users/Users';
 import Profile from './component/Profile/Profile';
 import Vehicle from './component/Vehicle/Vehicle';
 import Plan from './component/Plan/Plan';
@@ -11,6 +12,7 @@ import EditVehicle from './component/Vehicle/EditVehicle';
 import AddPlan from './component/Plan/AddPlan';
 import EditPlan from './component/Plan/EditPlan'
 import Transactions from './component/Transaction/Transactions';
+
 import Main from './component/Main/Main';
 import './App.css';
 
@@ -98,6 +100,13 @@ function App() {
           
             element={isLoggedIn ? ( userRole === 'customer'||'vendor'||'admin'?  <Transactions />  : <Navigate to='/dashboard' /> ): (<Navigate to='/logIn' />)}
 
+          />
+          <Route
+            path="/users"
+
+          
+            // element={isLoggedIn ? ( userRole === 'admin'?  <Users/>  : <Navigate to='/dashboard' /> ): (<Navigate to='/logIn' />)}
+            element={<Users/> }
           />
 
 

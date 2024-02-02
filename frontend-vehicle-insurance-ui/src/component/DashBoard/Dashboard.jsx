@@ -141,15 +141,13 @@ const Dashboard = () => {
 
   //on buy button click show the modal , set plan and setTransaction details
   const handleBuyButtonClick = (plan) => {
-  
+
 
     // console.log(userId);
-    if (storedUser.userRole === "vendor") 
-    {
+    if (storedUser.userRole === "vendor") {
       alert("You Are a Vendor. /n You can Sell Plan Only!!!");
-    } 
-    else
-     {
+    }
+    else {
       handleShow();
 
       setTransaction({
@@ -258,7 +256,7 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <Container fluid className="content-center my-5" >
-        <div className="card-container d-flex flex-wrap mx-5 content-center">
+        <div className="card-container d-flex flex-wrap mb-5 content-center">
           {plans.map(plan => (
             <Card key={plan.planId} style={{ width: '30rem', margin: '10px' }}>
               <Card.Body>

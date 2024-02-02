@@ -34,11 +34,11 @@ namespace VehicleInsuranceApi.Controllers
 
 
         // GET: api/User
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        // {
+        //     return await _context.Users.ToListAsync();
+        // }
 
 
 
@@ -128,7 +128,7 @@ namespace VehicleInsuranceApi.Controllers
 
             await _context.SaveChangesAsync();
 
-            // Return a response with the created user data
+      
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
         }
 
@@ -151,7 +151,7 @@ namespace VehicleInsuranceApi.Controllers
                 var userRole = existingUser.UserRole;
                 var tokenString = _tokenService.GenerateToken(existingUser.Id, existingUser.Username, userRole!);
 
-                // Return token to the frontend
+            
                 return Ok(new { token = tokenString });
 
             }
